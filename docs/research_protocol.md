@@ -1,7 +1,6 @@
 # PGxTrust research protocol
 
-- **Version:** 0.2 (frozen at end of P00, 2026-10-09; aligned with the master instructions in
-  `README.md`)
+- **Version:** 0.4 (2026-10-09; see §9 for changes since the P00 freeze)
 - **Change rule:** any change after freezing gets a new version number, a dated entry in §9, and a
   reason. Changes made *after* seeing model outputs must be labelled "post hoc".
 
@@ -262,4 +261,6 @@ abstention engine, P14 ablations) are deferred until the core result exists.
 | Version | Date | Change | Reason |
 |---|---|---|---|
 | 0.1 | 2026-10-09 | Initial freeze at end of P00 | — |
+| 0.4 | 2026-10-09 | **Post hoc** (after seeing G1 counts): (a) R/A pairs in the same release and gene–drug pair with identical recommendation text are treated as re-keyings and dropped (`drop_rekeyings`); (b) the "≥15 recent items" criterion uses the net diff from the last pre-2025 release to the latest, so transient edits that are later reverted count once. Both changes are conservative: they can only reduce item counts. | Raw counts were inflated by 771 re-keying pairs (mostly v1.21.0) and by a v1.54.0 → v1.55.0 round trip. |
+| 0.3 | 2026-10-09 | §5.2 clarified before any diff was run: (a) item key also includes the normalised `population` field, because CPIC can give separate recommendations per population for one lookup key; (b) the keyword map treats "recommended/desired/normal starting dose" as `standard` and "n/a"/"none" as `no_recommendation`; (c) sentence full stops are ignored when comparing text, decimals are kept. Recommendation text stays out of git until the CPIC licence is verified. | Found while smoke-testing the parser on the v1.54.0 dump (recommendation texts only; no change counts or model outputs seen). |
 | 0.2 | 2026-10-09 | Added the master-programme mapping (§2) and optional arm A4 (LoRA on an older release); renamed phases to the master numbering (§7) | The master instructions (README.md in the GitHub repo) were found after v0.1 was drafted. No data or model outputs had been seen. |

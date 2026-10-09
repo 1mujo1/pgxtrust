@@ -22,7 +22,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P00-E04 | P00 | Defensibility assessment + freeze core question | done | Core question = CPIC guideline-version drift (protocol v0.1); pivot = CPIC–DPWG conflicts |
 | P00-E05 | P00 | Realignment with the master instructions (README.md) | done | Protocol v0.2 (maps to master H4); +2 searches, +2 matrix rows (27); data_sources.md; 15 tests pass |
 | P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | planned | — |
-| P01-G1 | P01 | CPIC release-diff feasibility | planned | thresholds frozen in protocol §6 |
+| P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
 | P02-G2 | P02 | Power check on real item count | planned | — |
 
 ---
@@ -123,10 +123,50 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 
 See protocol §6 G0.
 
-## P01-G1 — CPIC release-diff feasibility (planned)
+## P01-G1 — CPIC release-diff feasibility
 
-See protocol §6 G1. Thresholds are frozen before data are seen: ≥40 substantive items, ≥4
-guidelines, ≥15 dated ≥2025-01-01, and a sanity check on 20 items.
+- **Date:** 2026-10-09
+- **Protocol:** v0.4 (v0.3 clarifications made before any diff; the v0.4 re-keying filter is
+  **post hoc** and conservative).
+- **Code:** `src/pgxtrust/cpic_releases.py`, `scripts/p01_cpic_release_diff.py`; 34 tests pass.
+- **Inputs:** 88 cpic-data release tags.
+  - 84 dumps downloaded from files.cpicpgx.org.
+  - 4 returned HTTP 404: v0.6, v0.7, v1.17.1, and v1.60.1 (an application-only release).
+  - Tags, URLs and SHA-256 hashes are in `results/p01/cpic_dump_manifest.tsv`. Dumps are
+    git-ignored.
+  - Window: v0.8 (2020-07) → v1.60.0 (2026-08-08). All 84 parsed with no errors and no duplicate
+    keys.
+- **Outputs:**
+  - `results/p01/g1_summary.json`;
+  - `results/p01/cpic_changes.csv` (keys, types, action classes; no CPIC text);
+  - full-text tables under `data/p01/` (git-ignored, because the CPIC licence is unverified).
+- **Results:**
+
+  | Metric | Value |
+  |---|---|
+  | Raw changes (consecutive releases) | M 197 · A 893 · R 822 · N 629 |
+  | Substantive, as originally defined (§5.2) | 1770 |
+  | Re-keyings found (R/A pairs with identical text, same release + pair) | 771 pairs; 597 in v1.21.0 and 110 in v1.25.0 |
+  | **Substantive, re-keyings removed** | **228** (M 55, A 122, R 51) |
+  | Guidelines with items | **6**: clopidogrel, phenytoin, G6PD, RYR1/CACNA1S, statins, thiopurines |
+  | **Net post-2025 items** (v1.43.0 → v1.60.0) | **43, all in TPMT/NUDT15–thiopurines** (3 drugs) |
+  | Version-pinned lookup reproduces sampled items | 20/20 |
+
+- **Gate:** all three frozen automatic criteria pass, even on the conservative pool. The
+  **manual check is pending**: the researcher fills `manual_action_changed` for the 20 rows in
+  `data/p01/g1_sanity_sample_fulltext.csv`. A pass needs ≥16/20.
+- **Caveats (must carry into P02):**
+  1. **Post-cut-off drift sits in one guideline.** All 43 net post-2025 changes are thiopurines
+     (3 gene–drug clusters). Any "changed after the model's training cut-off" stratum is therefore
+     a single-guideline case study and must not be presented as a general result.
+  2. **v1.54.0 → v1.55.0 was a transitional round trip.** Indeterminate-NUDT15 rows were blanked to
+     "n/a" and restored five weeks later. Step-wise counts double-count it, which is why the net
+     diff is used for "recent".
+  3. **The re-keying filter can hide real drift.** The CYP2D6 activity-score threshold redefinitions
+     (e.g. "≥4.5" → "≥3.75", 2023) keep the same text but change *which patients* receive it. That
+     is genotype-to-phenotype drift, which this item definition does not capture. It is a candidate
+     second item type for P02, not counted here.
+- **Status:** automatic criteria pass; manual check pending; G0 not started.
 
 ## P02-G2 — Power check (planned)
 

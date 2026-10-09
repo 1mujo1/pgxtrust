@@ -1,0 +1,65 @@
+{
+  "protocol_version": "0.4",
+  "releases_listed": 88,
+  "dumps_available": 84,
+  "dumps_loaded": 84,
+  "window": [
+    "v0.8",
+    "v1.60.0"
+  ],
+  "load_errors": [],
+  "changes_by_type": {
+    "M": 197,
+    "A": 893,
+    "R": 822,
+    "N": 629
+  },
+  "raw_substantive_items_before_rekeying_filter": 1770,
+  "primary_substantive_items": 228,
+  "primary_by_type": {
+    "M": 55,
+    "A": 122,
+    "R": 51
+  },
+  "primary_by_release": {
+    "v1.5": 32,
+    "v1.13": 30,
+    "v1.17": 2,
+    "v1.21.1": 14,
+    "v1.34.0": 35,
+    "v1.39.0": 30,
+    "v1.54.0": 34,
+    "v1.55.0": 51
+  },
+  "guidelines_with_primary_items": [
+    "CYP2C19 and Clopidogrel",
+    "CYP2C9, HLA-B and Phenytoin",
+    "G6PD",
+    "RYR1, CACNA1S and Volatile anesthetic agents and Succinylcholine",
+    "SLCO1B1, ABCG2, CYP2C9, and Statins",
+    "TPMT, NUDT15 and Thiopurines"
+  ],
+  "recent_net_diff": [
+    "v1.43.0",
+    "v1.60.0"
+  ],
+  "recent_primary_items": 43,
+  "recent_by_guideline": {
+    "TPMT, NUDT15 and Thiopurines": 43
+  },
+  "recent_gene_drug_pairs": [
+    "TPMT, NUDT15 and Thiopurines | RxNorm:103",
+    "TPMT, NUDT15 and Thiopurines | RxNorm:10485",
+    "TPMT, NUDT15 and Thiopurines | RxNorm:1256"
+  ],
+  "caveat": "All post-2025 net changes may sit in very few guidelines; check recent_by_guideline before any cut-off-stratified claim.",
+  "criteria": {
+    "items>=40": true,
+    "guidelines>=4": true,
+    "recent_items>=15": true
+  },
+  "automatic_criteria_pass": true,
+  "sanity_sample_size": 20,
+  "sanity_lookup_reproduces": 20,
+  "manual_check": "PENDING: researcher fills manual_action_changed in data/p01/g1_sanity_sample_fulltext.csv (pass needs >= 16/20)"
+}
