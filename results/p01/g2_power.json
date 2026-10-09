@@ -209,5 +209,46 @@
       "share_lower_bound_above_zero": 0.395,
       "mean_estimate": 0.1456086956521739
     }
+  },
+  "v0_5": {
+    "n_items": 857,
+    "by_drift_type": {
+      "changed": 228,
+      "appeared": 629
+    },
+    "n_pair_clusters": 80,
+    "n_guidelines": 12,
+    "scenarios": {
+      "v0.5 DECISION pair clusters, penalty_sd=1.0": {
+        "n_clusters": 80,
+        "penalty_sd": 1.0,
+        "mean_half_width": 0.06847309846763161,
+        "share_lower_bound_above_zero": 0.99,
+        "mean_estimate": 0.14677946324387398
+      },
+      "v0.5 pair clusters, penalty_sd=0.5": {
+        "n_clusters": 80,
+        "penalty_sd": 0.5,
+        "mean_half_width": 0.051206304782332374,
+        "share_lower_bound_above_zero": 1.0,
+        "mean_estimate": 0.13780630105017502
+      },
+      "v0.5 guideline clusters, penalty_sd=1.0": {
+        "n_clusters": 12,
+        "penalty_sd": 1.0,
+        "mean_half_width": 0.12015555569228864,
+        "share_lower_bound_above_zero": 0.75,
+        "mean_estimate": 0.15537339556592766
+      },
+      "v0.5 guideline clusters, penalty_sd=0.5": {
+        "n_clusters": 12,
+        "penalty_sd": 0.5,
+        "mean_half_width": 0.07626666579801403,
+        "share_lower_bound_above_zero": 0.95,
+        "mean_estimate": 0.143757292882147
+      }
+    },
+    "g2_pass": true,
+    "caveat": "Guideline-level clustering is weaker; report it as a sensitivity analysis."
   }
 }

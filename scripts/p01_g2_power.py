@@ -17,7 +17,13 @@ from collections import Counter
 from dataclasses import asdict
 from pathlib import Path
 
-from pgxtrust.cpic_releases import Change, drop_rekeyings, is_substantive
+from pgxtrust.cpic_releases import (
+    Change,
+    drift_type,
+    drop_rekeyings,
+    is_substantive,
+    primary_pool,
+)
 from pgxtrust.power import expected_precision
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,12 +33,16 @@ MAX_HALF_WIDTH = 0.10
 RECENT_GUIDELINE = "TPMT, NUDT15 and Thiopurines"  # all net post-2025 items (G1)
 
 
-def load_items() -> list[Change]:
+def load_all_changes() -> list[Change]:
     with CHANGES.open(encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
     fields = Change.__dataclass_fields__.keys()
-    changes = [Change(**{k: r[k] for k in fields}) for r in rows]
-    return drop_rekeyings([c for c in changes if is_substantive(c)])
+    return [Change(**{k: r[k] for k in fields}) for r in rows]
+
+
+def load_items() -> list[Change]:
+    """The v0.4 pool (changed items only), kept for the pre-specified and strict scenarios."""
+    return drop_rekeyings([c for c in load_all_changes() if is_substantive(c)])
 
 
 def main() -> int:
@@ -76,6 +86,32 @@ def main() -> int:
         "g2_pass_prespecified": primary["mean_half_width"] <= MAX_HALF_WIDTH,
         "g2_pass_strict": strict["mean_half_width"] <= MAX_HALF_WIDTH,
         "scenarios": results,
+    }
+
+    # Protocol v0.5 (researcher decision 2026-10-09): primary pool = changed + appeared items.
+    pool = primary_pool(load_all_changes())
+    pool_pairs = sorted(Counter((c.guideline, c.drugid) for c in pool).values(), reverse=True)
+    pool_guidelines = sorted(Counter(c.guideline for c in pool).values(), reverse=True)
+    v05 = {}
+    for name, (sizes, psd) in {
+        "v0.5 DECISION pair clusters, penalty_sd=1.0": (pool_pairs, 1.0),
+        "v0.5 pair clusters, penalty_sd=0.5": (pool_pairs, 0.5),
+        "v0.5 guideline clusters, penalty_sd=1.0": (pool_guidelines, 1.0),
+        "v0.5 guideline clusters, penalty_sd=0.5": (pool_guidelines, 0.5),
+    }.items():
+        res = expected_precision(sizes, cluster_sd=1.0, penalty_sd=psd)
+        v05[name] = {"n_clusters": len(sizes), "penalty_sd": psd, **asdict(res)}
+        print(f"{name:50s} k={len(sizes):3d}  half-width={res.mean_half_width:.3f}  "
+              f"P(lower CI > 0)={res.share_lower_bound_above_zero:.2f}")
+    decision = v05["v0.5 DECISION pair clusters, penalty_sd=1.0"]
+    summary["v0_5"] = {
+        "n_items": len(pool),
+        "by_drift_type": dict(Counter(drift_type(c) for c in pool)),
+        "n_pair_clusters": len(pool_pairs),
+        "n_guidelines": len(pool_guidelines),
+        "scenarios": v05,
+        "g2_pass": decision["mean_half_width"] <= MAX_HALF_WIDTH,
+        "caveat": "Guideline-level clustering is weaker; report it as a sensitivity analysis.",
     }
     OUT.write_text(json.dumps(summary, indent=2) + "\n")
     print("G2 pass (pre-specified):", summary["g2_pass_prespecified"],

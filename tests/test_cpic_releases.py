@@ -156,6 +156,15 @@ def test_drop_rekeyings_removes_matched_pairs_only():
     assert [c.lookupkey for c in kept] == ["k_other", "k_gone", "k_mod"]
 
 
+def test_primary_pool_includes_new_pairs_and_excludes_cosmetic(old_dump, new_dump):
+    from pgxtrust.cpic_releases import drift_type, primary_pool
+
+    pool = primary_pool(_diff(old_dump, new_dump))
+    assert sorted((c.change_type, drift_type(c)) for c in pool) == [
+        ("A", "changed"), ("M", "changed"), ("N", "appeared"), ("R", "changed"),
+    ]
+
+
 @pytest.mark.parametrize("text,label", [
     ("Avoid codeine use because of possible toxicity.", "avoid"),
     ("Consider an alternative statin.", "alternative"),

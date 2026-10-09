@@ -23,7 +23,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P00-E05 | P00 | Realignment with the master instructions (README.md) | done | Protocol v0.2 (maps to master H4); +2 searches, +2 matrix rows (27); data_sources.md; 15 tests pass |
 | P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | **pass (candidate A)** | 7/8 full texts + preprint search; temporal and conflict still gaps; abstention now covered (PGxQA) |
 | P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
-| P02-G2 | P02 | Power check on real item count | **fail (strict) → expansion proposed** | Pre-specified model 7.9 pts (pass) was flawed; strict model 12.9 pts (fail); adding new-pair items → 6.8 pts |
+| P02-G2 | P02 | Power check on real item count | **pass after expansion (v0.5)** | Strict model failed on 228 items/16 clusters (12.9 pts); researcher adopted "appeared" items → 857 items/80 clusters, 6.8 pts, P = 0.99 |
 
 ---
 
@@ -225,5 +225,13 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
     Clustered by guideline (12): 0.120.
   - **Option 2, re-keyed rows** (threshold/phenotype redefinitions, 35 pairs): needs
     genotype-to-phenotype logic, and many are pure formatting changes. Not pursued now.
-- **Status:** awaiting the researcher's decision on adopting Option 1 (protocol v0.5). This changes
-  the composition of the primary item pool, so it is not adopted automatically.
+- **Decision (2026-10-09):** the researcher chose **Option 1**, which became protocol v0.5.
+  - The pool is 857 items: 228 "changed" + 629 "appeared". It spans 80 gene–drug clusters across
+    12 guidelines.
+  - Rerun on the v0.5 pool: pair clusters half-width **0.068** (P = 0.99) at penalty_sd = 1.0, and
+    0.051 at penalty_sd = 0.5. Guideline clusters: 0.120 at penalty_sd = 1.0 and 0.076 at 0.5.
+- **G2 status:** **PASS on the v0.5 pool**, using the protocol's pair-level clustering.
+- **Carried caveats:**
+  - The "changed"-only estimate stays underpowered and is exploratory.
+  - Guideline-level clustering is a sensitivity analysis.
+  - Post-2025 drift is thiopurines only.

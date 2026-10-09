@@ -249,6 +249,25 @@ def drop_rekeyings(changes: list[Change]) -> list[Change]:
     return [c for i, c in enumerate(changes) if i not in drop]
 
 
+def primary_pool(changes: list[Change]) -> list[Change]:
+    """The protocol v0.5 primary item pool.
+
+    Two drift types, reported separately in the analysis:
+
+    * "changed": substantive M/A/R items with re-keyings removed;
+    * "appeared": N items, where a gene-drug pair had no CPIC recommendation before the release
+      (correct as-of answer before: "CPIC has no recommendation").
+    """
+    changed = drop_rekeyings([c for c in changes if is_substantive(c)])
+    appeared = [c for c in changes if c.change_type == "N"]
+    return changed + appeared
+
+
+def drift_type(change: Change) -> str:
+    """'appeared' for new gene-drug pairs (N), otherwise 'changed'."""
+    return "appeared" if change.change_type == "N" else "changed"
+
+
 def is_substantive(change: Change) -> bool:
     """Protocol 5.2 substantive filter. A and R changes are always substantive."""
     if change.change_type in {"A", "R"}:
