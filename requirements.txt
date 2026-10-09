@@ -1,0 +1,4 @@
+# Development tools. Runtime dependencies are declared in pyproject.toml (none yet).
+# Install everything with:  pip install -e '.[dev]'
+pytest>=8
+ruff>=0.6

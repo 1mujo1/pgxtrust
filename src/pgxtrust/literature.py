@@ -9,7 +9,8 @@ statement in this project. This module enforces the rules that keep it honest:
 * any ``yes`` or ``partial`` claim must carry an evidence note.
 
 `axis_coverage` then answers the question "for each capability, which PGx works cover it?",
-which is what `docs/p00_novelty_audit.md` uses to separate covered ideas from candidate gaps.
+which is what `docs/novelty_audit.md` uses to separate covered ideas from candidate gaps.
+`render_markdown` produces `docs/literature_matrix.md` from the CSV (the CSV is the source).
 """
 
 from __future__ import annotations
@@ -46,6 +47,7 @@ SHALLOW_ACCESS = {"abstract", "search_snippet"}
 REQUIRED_COLUMNS: tuple[str, ...] = (
     "id",
     "short_cite",
+    "title",
     "year",
     "venue",
     "doi_or_url",
@@ -57,6 +59,7 @@ REQUIRED_COLUMNS: tuple[str, ...] = (
     "knowledge_sources",
     *AXES,
     "evidence_note",
+    "relation_to_pgxtrust",
 )
 
 DEFAULT_MATRIX = Path(__file__).resolve().parents[2] / "literature" / "literature_matrix.csv"
@@ -165,6 +168,54 @@ def candidate_gaps(rows: list[dict[str, str]], domain: str = "pgx") -> list[str]
     """
     coverage = axis_coverage(rows, domain=domain, computational_only=True)
     return [axis for axis, cov in coverage.items() if not cov.yes]
+
+
+_SYMBOL = {"yes": "●", "partial": "◐", "no": "○", "unknown": "?", "n/a": "–"}
+_AXIS_SHORT = ("Rules", "RAG", "Conflict", "Verify", "Temporal", "Counterf.", "Abstain", "Attrib.")
+
+
+def _md_cell(text: str) -> str:
+    """Make a CSV value safe inside a Markdown table cell."""
+    return text.replace("|", "/").replace("\n", " ").strip()
+
+
+def render_markdown(rows: list[dict[str, str]]) -> str:
+    """Render the matrix as Markdown: one overview table, then one detail block per work."""
+    lines = [
+        "# Literature matrix",
+        "",
+        "> Generated from `literature/literature_matrix.csv` by",
+        "> `scripts/render_literature_matrix.py`. Edit the CSV, not this file.",
+        "",
+        "Legend: ● yes · ◐ partial · ○ no · ? unknown (not read in enough depth) · "
+        "– not applicable",
+        "",
+        "| ID | Work | Year | Domain | Kind | Access | " + " | ".join(_AXIS_SHORT) + " |",
+        "|---|---|---|---|---|---|" + "---|" * len(AXES),
+    ]
+    for row in rows:
+        marks = " | ".join(_SYMBOL[row[axis]] for axis in AXES)
+        lines.append(
+            f"| `{row['id']}` | {_md_cell(row['short_cite'])} | {row['year']} | {row['domain']} "
+            f"| {row['kind']} | {row['access']} | {marks} |"
+        )
+
+    lines += ["", "## Details", ""]
+    for row in rows:
+        lines += [
+            f"### `{row['id']}` — {_md_cell(row['short_cite'])} ({row['year']})",
+            "",
+            f"- **Title:** {_md_cell(row['title'])}",
+            f"- **Venue / status:** {_md_cell(row['venue'])} · {row['status']} "
+            f"· read: {row['access']}",
+            f"- **Link:** {row['doi_or_url']}",
+            f"- **Problem / method:** {_md_cell(row['task'])}",
+            f"- **Knowledge sources:** {_md_cell(row['knowledge_sources'])}",
+            f"- **Evidence / limitations:** {_md_cell(row['evidence_note'])}",
+            f"- **Relation to PGxTrust:** {_md_cell(row['relation_to_pgxtrust'])}",
+            "",
+        ]
+    return "\n".join(lines)
 
 
 def covered_elsewhere(rows: list[dict[str, str]], domain: str = "pgx") -> dict[str, list[str]]:

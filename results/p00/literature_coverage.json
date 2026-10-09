@@ -1,10 +1,11 @@
 {
-  "n_rows": 25,
+  "n_rows": 27,
   "pgx_computational_coverage": {
     "executable_rules": {
       "yes": [
         "corpas2026",
-        "pharmcat"
+        "pharmcat",
+        "overby2017ahrq"
       ],
       "partial": [],
       "unknown": [
@@ -73,7 +74,8 @@
         "corpas2026",
         "zack2026npj",
         "hsu2025jmir",
-        "pharmcat"
+        "pharmcat",
+        "overby2017ahrq"
       ],
       "unknown": [
         "zack2025pgxj",
@@ -145,7 +147,9 @@
     "uncertainty_abstention"
   ],
   "covered_outside_pgx": {
-    "executable_rules": [],
+    "executable_rules": [
+      "cao2026guideskill"
+    ],
     "rag_explanations": [
       "ji2026medragchecker",
       "ru2024ragchecker",

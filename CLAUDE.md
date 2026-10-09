@@ -1,85 +1,73 @@
-# PGxTrust — Claude Code Project Instructions
+# PGxTrust — Claude Code project state
 
-## Mission
+**Read `README.md` completely first.** It holds the user's master project instructions
+(sections 1–51: role, hypotheses H1–H7, architecture, benchmarks, phases, gates, rules). This file
+only records the current state of the project and the extra rules adopted during P00. Where they
+differ, the master instructions win, except for the frozen core question below, which the master
+instructions themselves ask P00 to produce (§51.10, "freeze the primary research question").
 
-Run a research-grade study that extends the pharmacogenomics (PGx) decision-support work of
+Last updated: 2026-10-09 (end of P00).
+
+## Where we are
+
+- **P00 novelty audit: DONE.** See:
+  - `docs/novelty_audit.md`
+  - `docs/literature_matrix.md` (generated from `literature/literature_matrix.csv`)
+  - `docs/data_sources.md`
+  - `docs/research_protocol.md`
+  - `docs/experiment_registry.md`
+- **Core paper question: FROZEN** in `docs/research_protocol.md` §2 (protocol v0.2). It is the
+  smallest defensible slice of the master programme and corresponds to master hypothesis **H4**
+  (version-aware executable knowledge vs parametric/RAG knowledge), measured on real CPIC release
+  history (master §13).
+- **Next research gate:** master P01 (versioned official-source ingestion), run as gates **G0**
+  (literature completion) and **G1** (CPIC release-diff feasibility). Thresholds are frozen in
+  protocol §6. Do not build RAG, LoRA, verifier, conflict engine or UI before G1 passes.
+
+## What P00 found (do not contradict without new evidence)
+
+- **Already covered in PGx, so never claim as new:**
+  - RAG for PGx QA (≥6 papers including the target paper);
+  - executable CPIC rules beating RAG generation, and failure localisation to the
+    calling/input-interpretation step (Corpas et al. 2026, under revision at Cell Genomics);
+  - PharmCAT as a deterministic CPIC + DPWG reporter.
+- **Covered as general methods outside PGx:** abstention, claim-level verification, conflict-aware
+  abstention, retriever/generator attribution, executable guideline skills (GuideSkill 2026), and
+  temporal drift (synthetic, or without executable gold).
+- **Candidate PGx gaps (not found in our searches as of 2026-10-09):**
+  - (A) answer correctness across *real* CPIC version changes — **chosen**;
+  - (B) CPIC–DPWG disagreement handling by LLM/RAG systems — **pivot**;
+  - (C) counterfactual consistency — evaluation instrument only.
+- Master H1/H2 are framed as replications of Corpas 2026 in our setting, not as contributions.
+  The full neuro-symbolic system (master §4 primary question) remains the long-term programme.
+
+## Target paper
+
 Arafin, Moniruzzaman & Alkhateeb (2026), *Applied Sciences* 16(18):9148,
-doi:10.3390/app16189148.
+doi:10.3390/app16189148. Full extraction in `docs/novelty_audit.md` §1.
 
-The goal is **not** to build the biggest PGx assistant. The goal is to answer one narrow,
-pre-registered question rigorously (see `docs/research_protocol.md` §2, "Frozen core question").
+## Extra rules adopted in P00
 
-This is a research prototype. It is **not** a clinical decision-support system and must never be
-described as one.
+1. Novelty statements must be backed by `literature/literature_matrix.csv`, validated by
+   `scripts/validate_literature.py` and `tests/test_literature_matrix.py`. Phrase gaps as "not found
+   in our searches (sources, date)".
+2. Rows read only at abstract/snippet level must say `unknown`, never `no`. The validator enforces
+   this.
+3. `docs/literature_matrix.md` is generated. Edit the CSV, then run
+   `scripts/render_literature_matrix.py`; a test fails if it is stale.
+4. The CPIC API `recommendation.version` field is 1 for every row and is **not** a change history.
+   Use per-release SQL dumps from files.cpicpgx.org.
+5. Never commit third-party PDFs, SQL dumps, PharmCAT JARs, model weights or secrets. Record URL +
+   SHA-256 in `data/README.md` / `docs/data_sources.md` instead.
+6. Licences for CPIC and ClinPGx data are **not yet verified**. Verify them before redistributing
+   anything derived.
 
-## Current phase
-
-- **P00 — novelty audit and research protocol: DONE** (see `docs/p00_novelty_audit.md`).
-- **Next: P01 — research gate G1 (CPIC release-diff feasibility).** Do not build models, RAG
-  pipelines, or UIs until G1 passes. See `docs/research_protocol.md` §6.
-
-## User profile
-
-The same researcher as `~/cystoguard-xai` (see that repo's CLAUDE.md for the full profile):
-
-- Debian Linux, i5-10210U, 16 GB RAM, no usable local GPU (MX130 on nouveau)
-- Heavy compute: Google Colab GPU, or hosted LLM APIs
-- Python beginner (~2/10), statistics beginner (~3/10)
-- Wants to explain the work to Dr. Abedalrhman Alkhateeb (Lakehead University)
-
-Write code that is simple, commented, and teachable. Explain new concepts briefly the first time
-they appear.
-
-## Non-negotiable scientific rules
-
-1. **No novelty claims without evidence.** Never write "first", "novel", "state-of-the-art", or
-   "no prior work" unless `literature/literature_matrix.csv` supports it. Phrase gaps as
-   "not found in our search (databases, date)", never as "does not exist".
-2. Absence of evidence in an abstract is not evidence of absence. Rows read only at abstract
-   level must use `unknown`, not `no` (the validator enforces this).
-3. Pin every knowledge source by version and access date (CPIC release tag, PharmCAT release,
-   ClinPGx download date). Never use "latest" in an experiment.
-4. Freeze the evaluation item set **before** running any model on it. Never edit items after
-   seeing model outputs. Item set hash goes in the experiment registry.
-5. Split by (gene, drug) pair and guideline, never by record, when anything is tuned. The
-   Alkhateeb paper's record-level split leaks entities across splits (its §6.5). Do not repeat it.
-6. Failed and negative results stay in `docs/experiment_registry.md`.
-7. Report confidence intervals (cluster bootstrap over gene–drug pairs) where feasible.
-8. No clinical claims. "Correct" means "matches the pinned guideline version", not "safe for
-   patients".
-9. LLM-as-judge is never the primary metric. Primary metrics must be computable deterministically
-   against the pinned CPIC/DPWG source.
-10. Prefer few, well-controlled experiments over many loose ones.
-
-## Data and licensing safety
-
-Never commit:
-- API keys, `.env`, tokens
-- downloaded CPIC SQL dumps, ClinPGx bulk files, PharmCAT JARs (re-downloadable; record URL + hash)
-- third-party PDFs (record DOI + SHA-256 in docs instead)
-- model checkpoints or raw LLM transcripts larger than a few MB (put them on Drive, record a hash)
-
-Licences are **not yet verified in this project** (believed: ClinPGx/PharmGKB data CC BY-SA 4.0;
-CPIC terms at cpicpgx.org). Verify and record them in the registry before redistributing any
-derived file.
-
-## Code style
-
-- Python 3.12, `src/` layout, package `pgxtrust`
-- Type hints, docstrings, pathlib
-- pytest for anything that touches item construction, version diffing, scoring, or splits
-- Machine-readable outputs (JSON/CSV) under `results/`, each with git SHA + source version
-- Explicit random seeds
-
-Run tests:
+## Session commands
 
 ```bash
-cd ~/pgxtrust
+cd ~/pgxtrust && git status && git pull
 source .venv/bin/activate
-pytest -q
+pytest -q && ruff check .
+python scripts/validate_literature.py
+python scripts/render_literature_matrix.py --check
 ```
-
-## Interaction style
-
-Move fast. Make routine repo decisions without asking. When a command fails: inspect, make the
-smallest fix, rerun tests. Ask only when a decision changes the research question.

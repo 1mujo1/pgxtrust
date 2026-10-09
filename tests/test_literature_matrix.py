@@ -17,6 +17,7 @@ from pgxtrust.literature import (
     candidate_gaps,
     covered_elsewhere,
     load_matrix,
+    render_markdown,
     validate_matrix,
 )
 
@@ -49,7 +50,7 @@ def test_already_covered_in_pgx_must_not_be_claimed(rows):
 
 
 def test_candidate_gaps_match_audit(rows):
-    # docs/p00_novelty_audit.md section 5 relies on exactly these PGx candidate gaps.
+    # docs/novelty_audit.md section 5 relies on exactly these PGx candidate gaps.
     assert set(candidate_gaps(rows, domain="pgx")) == {
         "multi_guideline_conflict",
         "evidence_verification",
@@ -76,6 +77,24 @@ def test_gap_methods_exist_outside_pgx(rows):
         assert elsewhere[axis], axis
     # Counterfactual evaluation has no 'yes' anywhere in the matrix.
     assert elsewhere["counterfactual_eval"] == []
+    # Executable guideline logic beating RAG is also shown outside PGx.
+    assert "cao2026guideskill" in elsewhere["executable_rules"]
+
+
+def test_rendered_markdown_is_up_to_date(rows):
+    from pathlib import Path
+
+    rendered = render_markdown(rows) + "\n"
+    committed = (Path(__file__).resolve().parents[1] / "docs" / "literature_matrix.md").read_text(
+        encoding="utf-8"
+    )
+    assert committed == rendered, "run scripts/render_literature_matrix.py"
+
+
+def test_rendered_markdown_lists_every_work(rows):
+    markdown = render_markdown(rows)
+    for row in rows:
+        assert f"`{row['id']}`" in markdown
 
 
 # ---------------------------------------------------------------- validator unit tests
@@ -85,6 +104,7 @@ def _valid_row() -> dict[str, str]:
     row = {
         "id": "x2026",
         "short_cite": "Doe et al.",
+        "title": "A synthetic paper",
         "year": "2026",
         "venue": "Journal",
         "doi_or_url": "10.0000/x",
@@ -95,6 +115,7 @@ def _valid_row() -> dict[str, str]:
         "task": "task",
         "knowledge_sources": "CPIC",
         "evidence_note": "note",
+        "relation_to_pgxtrust": "none",
     }
     row.update({axis: "unknown" for axis in AXES})
     return row

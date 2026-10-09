@@ -1,6 +1,7 @@
 # PGxTrust research protocol
 
-- **Version:** 0.1 (frozen at end of P00, 2026-10-09)
+- **Version:** 0.2 (frozen at end of P00, 2026-10-09; aligned with the master instructions in
+  `README.md`)
 - **Change rule:** any change after freezing gets a new version number, a dated entry in §9, and a
   reason. Changes made *after* seeing model outputs must be labelled "post hoc".
 
@@ -15,7 +16,7 @@ three-class labels. They list abstention under conflicting evidence and DPWG/FDA
 work. Separately, Corpas et al. (2026, under revision) already show that executing structured CPIC
 rules is more reliable than generating from retrieved prose. CPIC itself publishes 88 tagged,
 machine-readable releases (2020–2026), so *what the guideline said on a given date* is exactly
-recoverable. Details and evidence: `docs/p00_novelty_audit.md`.
+recoverable. Details and evidence: `docs/novelty_audit.md`.
 
 ## 2. Frozen core question
 
@@ -27,10 +28,28 @@ The "correct" answer is always the recommendation in the CPIC release valid on t
 recovered from that release's SQL dump. **No LLM judge and no clinician labelling are needed for the
 primary outcome.**
 
+### Relation to the master programme (`README.md`)
+
+The master primary question (§4: a full neuro-symbolic system with executable guidelines, conflict
+modelling, verification and version tracking) is kept as the **long-term programme**. P00 found that
+several of its parts are already published (`docs/novelty_audit.md` §5), so the **core paper** is
+the slice that P00 judged defensible:
+
+| Master item | Status in the core paper |
+|---|---|
+| H4 version-aware executable knowledge vs parametric/RAG/fine-tuning | **Primary** (this protocol's H1–H2) |
+| §13 temporal robustness metrics (stale-recommendation rate, update accuracy, old-knowledge intrusion, version attribution) | Primary and secondary metrics (§4.4) |
+| H1/H2 executable engine vs RAG | Reference arm only; framed as a replication of Corpas 2026, not a contribution |
+| H5 counterfactual consistency | Instrument (§4.3: date counterfactuals) |
+| H6 failure attribution | Descriptive secondary (§4.4) |
+| H7 abstention | Secondary metric (abstention / "no recommendation" rate) |
+| H3 cross-guideline conflict | Pivot (§6 G1b) and the planned follow-up paper |
+| B1/B3 LoRA baselines | Optional arm A4 (§4.1), compute permitting |
+
 ### Explicitly out of scope for the core paper
 
-- New retrieval architectures, fine-tuning or LoRA. The target paper already shows LoRA alone is
-  insufficient. Fine-tuning is not needed to test the question.
+- New retrieval architectures. The LoRA reproduction is optional (arm A4) and is not needed to test
+  the question; the target paper already shows LoRA alone is insufficient.
 - Genotype calling from VCF / PharmCAT end-to-end. Corpas 2026 covers the calling step.
 - DPWG/FDA conflicts. This is the pre-registered **pivot** (§6, G1b) and a possible follow-up paper.
 - Claim-level verification of free-text explanations (secondary at most).
@@ -81,7 +100,8 @@ an item-construction bug, which is fixed and logged *before* any model runs.
 | A1 `rag_current` | retrieval over the latest pinned release only | Upper bound for RAG |
 | A2 `rag_mixed` | retrieval over chunks from all releases in the study window, **no version metadata** | Realistic stale/mixed index |
 | A3 `rag_mixed_tagged` | same index as A2, each chunk prefixed with `[CPIC vX.Y, released YYYY-MM-DD]` | H2 intervention |
-| R `pinned_lookup` | deterministic SQL lookup in the as-of release | Executable reference / item validation |
+| R `pinned_lookup` | deterministic SQL lookup in the as-of release | Executable reference / item validation (master B4) |
+| A4 `lora_old` *(optional)* | Llama-3.1-8B + LoRA trained on records from an **older** release only, with and without A1 retrieval | Master §13 conditions B/D; direct continuity with the target paper's LoRA + RAG |
 
 Models:
 - At least one open 8B model from the target paper, **Llama-3.1-8B-Instruct**, for direct continuity
@@ -206,7 +226,7 @@ the action changed in ≥ 16/20.
   across ≥ 4 genes.
 - If G1b also fails, stop and re-plan with the researcher.
 
-### G2 — power check (after G1, before P02)
+### G2 — power check (after G1, before any model run)
 
 With the actual item count, simulate the bootstrap CI width for H1 assuming a 15-point drift
 penalty. If the expected half-width is > 10 points, expand the item pool before running models:
@@ -214,14 +234,19 @@ add phenotype variants per key, or widen the release window.
 
 ## 7. Planned phases
 
-| Phase | Content | Gate |
+Phase numbers follow the master instructions (`README.md` §26). Only the phases the core paper needs
+are scheduled now. The others (P05 retrieval benchmark, P08 verifier, P09 cross-guideline, P12
+abstention engine, P14 ablations) are deferred until the core result exists.
+
+| Master phase | Core-paper content | Gate |
 |---|---|---|
 | P00 | Novelty audit, protocol, matrix | done |
-| P01 | G0 literature completion + G1 release diff | G0, G1 |
-| P02 | Freeze item set + model list + prompts; build R lookup; G2 | G2 |
-| P03 | Run A0–A3 × models | — |
-| P04 | Analysis: H1, H2, secondary metrics, CIs | — |
-| P05 | Write-up; optional follow-up on candidate B | — |
+| P01 | Versioned CPIC ingestion (release dumps, hashes, licence) + G0 literature completion + G1 release diff | **G0, G1 (next)** |
+| P02–P03 | Normalisation of lookup keys / drugs; version-pinned deterministic lookup R | G2 |
+| P04 | Baselines A0–A2 (and optional A4 LoRA) on the frozen items | — |
+| P11 | Temporal benchmark: frozen item set (changed + matched unchanged, date counterfactuals); A3 intervention | — |
+| P13 / P15 | Failure attribution (descriptive), cluster-bootstrap statistics for H1, H2 | — |
+| P16 | Paper draft | — |
 
 ## 8. Reporting commitments
 
@@ -237,3 +262,4 @@ add phenotype variants per key, or widen the release window.
 | Version | Date | Change | Reason |
 |---|---|---|---|
 | 0.1 | 2026-10-09 | Initial freeze at end of P00 | — |
+| 0.2 | 2026-10-09 | Added the master-programme mapping (§2) and optional arm A4 (LoRA on an older release); renamed phases to the master numbering (§7) | The master instructions (README.md in the GitHub repo) were found after v0.1 was drafted. No data or model outputs had been seen. |

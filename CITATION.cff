@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below. Research prototype only; not clinical advice."
+title: "PGxTrust: version- and source-aware evaluation of pharmacogenomic decision support"
+type: software
+authors:
+  - name: "PGxTrust contributors"
+license: MIT
+repository-code: "https://github.com/1mujo1/pgxtrust"
+version: "0.0.1"
+date-released: "2026-10-09"
+references:
+  - type: article
+    title: "Evidence-Grounded Clinical Pharmacogenomics Decision Support: Integrating Fine-Tuned Large Language Models with Hybrid Retrieval-Augmented Generation"
+    authors:
+      - family-names: Arafin
+        given-names: Protiva
+      - family-names: Moniruzzaman
+        given-names: Md
+      - family-names: Alkhateeb
+        given-names: Abedalrhman
+    journal: "Applied Sciences"
+    volume: 16
+    issue: 18
+    start: 9148
+    year: 2026
+    doi: "10.3390/app16189148"

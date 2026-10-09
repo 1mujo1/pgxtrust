@@ -5,7 +5,8 @@
 - **Searches:** web search (standard + extended), PubMed E-utilities, arXiv API, Crossref, Semantic
   Scholar, GitHub API (repos, releases), PharmCAT docs, CPIC API. Queries and coverage are listed
   in §7.
-- **Evidence base:** `literature/literature_matrix.csv` (25 rows, validated by
+- **Evidence base:** `literature/literature_matrix.csv` (27 rows; rendered as
+  `docs/literature_matrix.md`; validated by
   `scripts/validate_literature.py`; coverage snapshot in `results/p00/literature_coverage.json`).
 
 > **Reading rule.** "Not found" below always means "not found in the searches listed in §7 as of
@@ -200,6 +201,41 @@ Their public work does **not** include, as far as we found:
 | Claim-level evidence verification | MedRAGChecker 2026; RAGChecker 2024; DrugClaw/DrugAudit 2026 (citation faithfulness) |
 | Retriever vs generator failure attribution | RAGChecker 2024; RAG-X 2026 |
 | Guideline conflict resolution | Xie et al. 2026 (neuro-symbolic, multimorbidity); Javadi et al. 2025 (contradictions in context) |
+| Executable guideline logic instead of guideline RAG | GuideSkill (Cao et al. 2026, arXiv:2607.26160): +13.45% macro accuracy over guideline RAG (abstract) |
+
+### 3.4 Rule-based PGx CDS implementations and neuro-symbolic medical RAG
+
+- **CPIC CDS implementations (non-LLM).**
+  - CPIC guideline supplements include EHR implementation tables and alert text.
+  - Institutions build local rule-based CDS. Vanderbilt PREDICT promotes variants to the EHR after
+    P&T approval.
+  - An AHRQ project (Overby, R21 HS023390, 2014–2017) made a CPIC guideline computable and built
+    services "to enable revising gCDS content based upon changes to the clinical guidelines".
+  - **Implication:** keeping rules current when guidelines change is a known *maintenance* problem
+    in rule-based PGx CDS. We found no study measuring how LLM/RAG answers behave across those
+    changes. This strengthens the motivation for candidate A without pre-empting it.
+- **Neuro-symbolic medical RAG.**
+  - GuideSkill (2026) and Xie et al. (2026) show executable or symbolic guideline logic beating or
+    complementing RAG outside PGx. Saxena et al. (arXiv:2601.04568) propose neuro-symbolic
+    retrievers.
+  - **Implication:** "neuro-symbolic" is not a novelty angle. It is now an expected design.
+
+### 3.5 Coverage of the master P00 checklist (`README.md` §26, §51)
+
+| Master checklist item | Where covered |
+|---|---|
+| Identify the exact prior Alkhateeb paper; task, models, data, retrieval, fine-tuning, metrics, limitations | §1 |
+| Study PharmCAT | §2.2 |
+| Study CPIC structured resources | §2.1, `docs/data_sources.md` |
+| PGx RAG systems | §3.2 |
+| Neuro-symbolic PGx / medical systems | §3.1 (Corpas), §3.4 |
+| CPIC CDS implementations | §3.4 |
+| Guideline conflict resolution | §3.3, §5 B |
+| Temporal clinical RAG | §3.3, §5 A |
+| Evidence-verifying RAG | §3.3 |
+| Abstention / selective prediction in medical LLMs | §3.3 |
+| Novelty matrix | `docs/literature_matrix.md` (27 works) |
+| Smallest defensible core contribution | §5, `docs/research_protocol.md` §2 |
 
 ---
 
@@ -293,6 +329,8 @@ See `docs/research_protocol.md` §6 for the full gate definitions.
 | Web search | Alkhateeb 2026 PGx; PharmCAT 3.x; LLM + PharmCAT tool calling; CPIC vs DPWG discordance; PGx LLM benchmarks 2025–26; temporal guideline drift; counterfactual genotype + abstention; PGxAI-Recommender; LLM PGx report explanation; CPIC versioning; multi-guideline conflict RAG; RAGChecker / failure attribution; HRAG Jeon; DPWG+CPIC+LLM; medRxiv PGx guideline update; Corpas/ClawBio; medical abstention + conflict; claim-level verification | 2026-10-09 |
 | GitHub API | `manuelcorpas/24-AGENTIC-PGX-BENCHMARK` (README, RESULTS-REVISION.md); `PharmGKB/PharmCAT` releases + docs; `cpicpgx/cpic-data` releases (88) | 2026-10-09 |
 | Zenodo | record 21710055 | 2026-10-09 |
+| Web search (2nd pass, after reading master instructions) | PGx CDS knowledge maintenance / CPIC guideline updates in EHR rules; neuro-symbolic RAG with executable clinical guidelines | 2026-10-09 |
+| AHRQ digital healthcare research | project page for R21 HS023390 | 2026-10-09 |
 | CPIC API | `/v1/recommendation`, `/v1/guideline` | 2026-10-09 |
 
 **Known blind spots:**
