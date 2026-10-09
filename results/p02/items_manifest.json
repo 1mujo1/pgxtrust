@@ -1,0 +1,43 @@
+{
+  "protocol_version": "0.5",
+  "seed": 20261009,
+  "item_file": "data/p02/items_v1.jsonl",
+  "item_file_sha256": "618986063db57ad7807f38c3011801edc6bca4b27bc4812bef90eae449e44af8",
+  "releases_used": {
+    "first": "v0.8",
+    "last": "v1.60.0",
+    "count": 84
+  },
+  "pool_size": 857,
+  "targets_kept": 779,
+  "dropped": {
+    "versions_identical_after_formatting": 78
+  },
+  "questions": 3116,
+  "questions_by_role_timepoint": {
+    "target/before": 779,
+    "target/after": 779,
+    "control/before": 779,
+    "control/after": 779
+  },
+  "targets_by_drift_type": {
+    "changed": 214,
+    "appeared": 565
+  },
+  "gold_kind_by_role": {
+    "target/no_recommendation": 766,
+    "target/recommendation": 792,
+    "control/recommendation": 792,
+    "control/no_recommendation": 766
+  },
+  "control_match_level": {
+    "same_pair": 86,
+    "same_release": 657,
+    "same_guideline": 36
+  },
+  "n_clusters": 80,
+  "options_per_question": {
+    "4": 3116
+  },
+  "reference_lookup_failures": 0
+}

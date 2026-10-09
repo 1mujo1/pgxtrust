@@ -100,6 +100,7 @@ class Recommendation:
     population: str
     drugrecommendation: str
     classification: str
+    lookupkey_raw: str = ""  # CPIC's original wording, for display in questions only
 
     @property
     def key(self) -> Key:
@@ -128,6 +129,7 @@ def load_recommendations(dump_path: Path) -> dict[Key, Recommendation]:
             population=row.get("population") or "",
             drugrecommendation=row.get("drugrecommendation") or "",
             classification=row.get("classification") or "",
+            lookupkey_raw=row.get("lookupkey") or "",
         )
         if rec.key in recs:
             raise ValueError(f"{dump_path}: duplicate recommendation key {rec.key}")

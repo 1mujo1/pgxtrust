@@ -23,6 +23,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P00-E05 | P00 | Realignment with the master instructions (README.md) | done | Protocol v0.2 (maps to master H4); +2 searches, +2 matrix rows (27); data_sources.md; 15 tests pass |
 | P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | **pass (candidate A)** | 7/8 full texts + preprint search; temporal and conflict still gaps; abstention now covered (PGxQA) |
 | P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
+| P02-E01 | P02 | Build, validate and freeze the temporal question set + prompt v001 | **done (frozen)** | 3,116 questions, 80 clusters, 0 reference-lookup failures; sha256 6189860… |
 | P02-G2 | P02 | Power check on real item count | **pass after expansion (v0.5)** | Strict model failed on 228 items/16 clusters (12.9 pts); researcher adopted "appeared" items → 857 items/80 clusters, 6.8 pts, P = 0.99 |
 
 ---
@@ -188,6 +189,41 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
      is genotype-to-phenotype drift, which this item definition does not capture. It is a candidate
      second item type for P02, not counted here.
 - **Status:** automatic criteria pass; manual check pending; G0 not started.
+
+## P02-E01 — Frozen temporal question set
+
+- **Date:** 2026-10-09
+- **Protocol:** v0.6.
+- **Code:** `src/pgxtrust/items.py`, `src/pgxtrust/prompts.py`, `scripts/p02_build_items.py`.
+  67 tests pass.
+- **Inputs:** 84 CPIC release dumps (`results/p01/cpic_dump_manifest.tsv`); the primary pool of
+  857 items.
+- **Outputs:**
+  - `data/p02/items_v1.jsonl`, git-ignored because it contains CPIC text. SHA-256
+    `618986063db57ad7807f38c3011801edc6bca4b27bc4812bef90eae449e44af8`.
+  - `results/p02/items_manifest.json` and `results/p02/items_meta.csv` (no option text).
+  - Prompt `configs/prompts/forced_choice_v001.txt`, SHA-256
+    `0880a65b54a5a8c8ef8c5ab31cfc894a264d9320138ebbe8b9f984951b59ef98`.
+- **Result:**
+
+  | Quantity | Value |
+  |---|---|
+  | Targets kept | 779 of 857: 214 changed, 565 appeared. 78 dropped because both versions were "no recommendation" |
+  | Questions | 3,116 = 779 × {target, control} × {before, after} |
+  | Gold kind | targets 766 no-rec / 792 rec; controls 766 / 792 (identical) |
+  | Options | exactly 4 for all 3,116 questions |
+  | Control match | 86 same pair, 36 same guideline, 657 same release only |
+  | Reference lookup (arm R) | reproduces 3,116/3,116 gold answers |
+
+- **Fixed before freezing (first build, no model run):**
+  - no-recommendation imbalance (49% of targets vs 0% of controls);
+  - 2–5 options per question;
+  - normalised, unreadable gene/population text in prompts;
+  - bare activity-score numbers.
+- **Carried caveat:** most controls come from other guidelines. Protocol v0.6 pre-registers a
+  same-pair/same-guideline sensitivity analysis and the control-free date-flip analysis.
+- **Not yet frozen (needs the researcher):** the model list, decoding settings, and API/compute
+  budget. Retrieval corpora for arms A1–A3 are still to be built.
 
 ## P02-G2 — Power / precision check
 

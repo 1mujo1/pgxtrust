@@ -1,0 +1,8 @@
+You are answering a question about Clinical Pharmacogenetics Implementation Consortium (CPIC) guideline recommendations. Answer according to what CPIC recommended on the date given in the question, not according to any later or earlier version.
+{context_block}
+Question: As of {as_of_date}, according to CPIC, what is the recommendation for {drug_name} in a patient with the following genetic result: {gene_result}{population_clause}?
+
+Options:
+{options_block}
+
+Reply with the single letter of the correct option and nothing else.

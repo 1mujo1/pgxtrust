@@ -104,6 +104,12 @@ def test_lookupkey_normalisation_ignores_order_and_case():
     assert a == b
 
 
+def test_original_lookupkey_wording_is_kept_for_display(old_dump):
+    recs = load_recommendations(old_dump)
+    assert {r.lookupkey_raw for r in recs.values()} == {PM, NM}
+    assert all(r.lookupkey != r.lookupkey_raw for r in recs.values())  # key is normalised
+
+
 def test_duplicate_keys_are_rejected(tmp_path):
     dump = write_dump(tmp_path / "dup.sql.gz", [
         ("1", "1", "RxNorm:1", "Avoid.", "Strong", PM, "general"),

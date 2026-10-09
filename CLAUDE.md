@@ -28,6 +28,10 @@ Last updated: 2026-10-09 (end of P00).
     629 "appeared"), 80 gene–drug clusters, CI half-width 6.8 points. Report H1 by drift type too;
     "changed"-only results are exploratory.
   - **Pending:** the researcher's 20-item manual check in `data/p01/g1_sanity_sample_fulltext.csv`.
+- **P02 (2026-10-09):** the question set is FROZEN (`data/p02/items_v1.jsonl`, SHA-256 6189860…,
+  3,116 questions) with prompt v001 (SHA-256 0880a65…). **Never edit either.** Any change means a
+  new versioned file and a registry entry. Still open: the model list and budget (researcher
+  decision), and the retrieval corpora for arms A1–A3.
   - Do not build RAG, LoRA, verifier, conflict engine or UI before the manual check and G2.
 - **CPIC licence:** CC0 1.0. The ClinPGx data usage policy is still unread, so CPIC text stays out
   of git.
