@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Secrets
+.env
+*.key
+*token*
+
+# Downloaded third-party data and binaries (re-downloadable; record URL + SHA-256 instead)
+data/*
+!data/README.md
+*.sql
+*.sql.gz
+*.jar
+*.vcf
+*.vcf.gz
+*.pdf
+
+# Large run outputs (keep small JSON/CSV summaries only)
+results/raw/
+*.parquet
+*.safetensors
+*.bin
+*.pt

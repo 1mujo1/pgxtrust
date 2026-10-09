@@ -1,0 +1,179 @@
+{
+  "n_rows": 25,
+  "pgx_computational_coverage": {
+    "executable_rules": {
+      "yes": [
+        "corpas2026",
+        "pharmcat"
+      ],
+      "partial": [],
+      "unknown": [
+        "zack2026npj",
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag",
+        "hsu2025jmir"
+      ]
+    },
+    "rag_explanations": {
+      "yes": [
+        "arafin2026",
+        "zack2026npj",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag"
+      ],
+      "partial": [
+        "corpas2026"
+      ],
+      "unknown": [
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "hsu2025jmir"
+      ]
+    },
+    "multi_guideline_conflict": {
+      "yes": [],
+      "partial": [
+        "borishetty2025pgxrag",
+        "pharmcat"
+      ],
+      "unknown": [
+        "zack2026npj",
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "rector2025sherpa",
+        "jeon2026hrag",
+        "hsu2025jmir"
+      ]
+    },
+    "evidence_verification": {
+      "yes": [],
+      "partial": [
+        "zack2026npj",
+        "hsu2025jmir"
+      ],
+      "unknown": [
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag"
+      ]
+    },
+    "temporal_updates": {
+      "yes": [],
+      "partial": [
+        "corpas2026",
+        "zack2026npj",
+        "hsu2025jmir",
+        "pharmcat"
+      ],
+      "unknown": [
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag"
+      ]
+    },
+    "counterfactual_eval": {
+      "yes": [],
+      "partial": [
+        "corpas2026"
+      ],
+      "unknown": [
+        "zack2026npj",
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag",
+        "hsu2025jmir"
+      ]
+    },
+    "uncertainty_abstention": {
+      "yes": [],
+      "partial": [
+        "arafin2026",
+        "corpas2026",
+        "hsu2025jmir",
+        "pharmcat"
+      ],
+      "unknown": [
+        "zack2026npj",
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag"
+      ]
+    },
+    "failure_attribution": {
+      "yes": [
+        "corpas2026"
+      ],
+      "partial": [
+        "pharmcat"
+      ],
+      "unknown": [
+        "zack2026npj",
+        "zack2025pgxj",
+        "keat2025pgxqa",
+        "murugan2024",
+        "borishetty2025pgxrag",
+        "rector2025sherpa",
+        "jeon2026hrag",
+        "hsu2025jmir"
+      ]
+    }
+  },
+  "pgx_candidate_gaps": [
+    "multi_guideline_conflict",
+    "evidence_verification",
+    "temporal_updates",
+    "counterfactual_eval",
+    "uncertainty_abstention"
+  ],
+  "covered_outside_pgx": {
+    "executable_rules": [],
+    "rag_explanations": [
+      "ji2026medragchecker",
+      "ru2024ragchecker",
+      "sivakumar2026ragx",
+      "wang2026drugclaw"
+    ],
+    "multi_guideline_conflict": [
+      "han2026conflict",
+      "xie2026neurosymbolic",
+      "javadi2025contradictions"
+    ],
+    "evidence_verification": [
+      "ji2026medragchecker",
+      "ru2024ragchecker",
+      "wang2026drugclaw"
+    ],
+    "temporal_updates": [
+      "wu2025drift",
+      "guan2026tempomed"
+    ],
+    "counterfactual_eval": [],
+    "uncertainty_abstention": [
+      "han2026conflict",
+      "machcha2026abstain"
+    ],
+    "failure_attribution": [
+      "ru2024ragchecker",
+      "sivakumar2026ragx"
+    ]
+  }
+}
