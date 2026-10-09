@@ -69,6 +69,24 @@ class ReleaseIndex:
         return self.dates[self.tags.index(tag)]
 
 
+def load_release_index(dumps_dir: Path) -> ReleaseIndex:
+    """Load every downloaded release listed in dumps_dir/manifest.tsv (P01 output)."""
+    import csv
+
+    from .cpic_releases import load_recommendations
+
+    with (dumps_dir / "manifest.tsv").open() as handle:
+        manifest = [r for r in csv.DictReader(handle, delimiter="\t") if r["sha256"]]
+    manifest.sort(key=lambda r: (r["date"], r["tag"]))
+    paths = [dumps_dir / f"cpic_db_dump-{r['tag']}.sql.gz" for r in manifest]
+    return ReleaseIndex(
+        tags=[r["tag"] for r in manifest],
+        dates=[r["date"] for r in manifest],
+        recs={r["tag"]: load_recommendations(p) for r, p in zip(manifest, paths, strict=True)},
+        drug_names=load_drug_names(paths),
+    )
+
+
 def load_drug_names(dump_paths: list[Path]) -> dict[str, str]:
     """drugid -> name, newest dump wins (pass paths oldest first). Reads the cpic.drug table."""
     names: dict[str, str] = {}

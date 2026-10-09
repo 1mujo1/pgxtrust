@@ -1,0 +1,24 @@
+{
+  "releases": {
+    "first": "v0.8",
+    "last": "v1.60.0",
+    "count": 84
+  },
+  "corpora": {
+    "current": {
+      "path": "data/p03/corpus_current.jsonl",
+      "docs": 2115,
+      "sha256": "609c83956fc2f9fd188a9a81ae2ea6f43731270e5647748ea6e89f31f45df2ec"
+    },
+    "mixed": {
+      "path": "data/p03/corpus_mixed.jsonl",
+      "docs": 3426,
+      "sha256": "5205dc281a3a567cd20a897a0958be887179f08394d2f307ccc3bf9f5f2a6ef5"
+    },
+    "tagged": {
+      "path": "data/p03/corpus_tagged.jsonl",
+      "docs": 3426,
+      "sha256": "556501af70bcef168c6a36df2fc3efea1ce86f213ab85bf3619bda894400edc6"
+    }
+  }
+}

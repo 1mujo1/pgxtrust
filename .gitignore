@@ -26,3 +26,6 @@ results/raw/
 *.safetensors
 *.bin
 *.pt
+
+# Dry-run outputs (oracle/random) are reproducible and large; keep only the summary
+results/p03/runs/*__dryrun*

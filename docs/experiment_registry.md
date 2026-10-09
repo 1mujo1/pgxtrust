@@ -24,6 +24,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | **pass (candidate A)** | 7/8 full texts + preprint search; temporal and conflict still gaps; abstention now covered (PGxQA) |
 | P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
 | P02-E01 | P02 | Build, validate and freeze the temporal question set + prompt v001 | **done (frozen)** | 3,116 questions, 80 clusters, 0 reference-lookup failures; sha256 6189860… |
+| P03-E00 | P03 | Retrieval corpora, run harness, zero-cost dry run | **done** | Oracle 100% on all 4 arms × 3,116; random 24.6%; resume verified; recall measured, not tuned |
 | P02-G2 | P02 | Power check on real item count | **pass after expansion (v0.5)** | Strict model failed on 228 items/16 clusters (12.9 pts); researcher adopted "appeared" items → 857 items/80 clusters, 6.8 pts, P = 0.99 |
 
 ---
@@ -233,6 +234,40 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
     - a Hugging Face token with the Llama 3.1 licence accepted (gated model);
     - the retrieval corpora for arms A1–A3;
     - the training cut-off date of each model, recorded from its official documentation.
+
+## P03-E00 — Run harness and dry run (no model, no cost)
+
+- **Date:** 2026-10-09
+- **Protocol:** v0.7.
+- **Code:**
+  - `src/pgxtrust/retrieval.py` (corpora + BM25), `backends.py` (oracle, random, Claude,
+    Llama), `runner.py` (append-only, resumable);
+  - `scripts/p03_build_corpora.py`, `scripts/p03_run.py` (refuses to run if the items or template
+    hash differs);
+  - 76 tests pass.
+- **Corpora:** current 2,115, mixed 3,426, tagged 3,426 documents. Hashes are in
+  `results/p03/corpora_manifest.json`.
+- **Dry run** (`results/p03/dryrun_summary.json`; the raw dry-run rows are git-ignored):
+  - oracle 3,116/3,116 correct on each of A0–A3;
+  - random 24.6% (A2);
+  - rerunning a finished arm skipped all 3,116;
+  - 0 errors, 0 unparseable.
+- **Retrieval recall** of the gold document in the top 5 (questions whose gold answer is a
+  recommendation; targets / controls):
+
+  | Arm | Targets | Controls |
+  |---|---|---|
+  | A1 | 500/792 | 428/792 |
+  | A2 | 605/792 | 592/792 |
+  | A3 | 631/792 | 608/792 |
+
+  Reported, **not tuned**: tuning on the evaluation items would leak.
+- **Bugs caught by tests before any model run:**
+  - the tokenizer glued full stops to words, so drug names never matched;
+  - duplicate questions were answered twice within one run;
+  - the metadata check would have blocked resuming after a new commit.
+- **Ready for real runs:** see `docs/running_p03.md`. This needs the researcher's Anthropic API key
+  and Hugging Face token. On a free Colab T4, Llama needs `--quant 4bit` (a declared deviation).
 
 ## P02-G2 — Power / precision check
 

@@ -11,6 +11,8 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]
+api = ["anthropic>=1.0"]
+colab = ["torch", "transformers>=4.45", "accelerate", "bitsandbytes"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

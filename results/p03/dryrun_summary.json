@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-09",
+  "purpose": "zero-cost pipeline check before any model call",
+  "oracle_accuracy": {
+    "A0": 1.0,
+    "A1": 1.0,
+    "A2": 1.0,
+    "A3": 1.0
+  },
+  "random_A2_accuracy": 0.2461,
+  "questions_per_arm": 3116,
+  "resume_check": "3116 skipped on rerun",
+  "errors": 0,
+  "unparseable": 0,
+  "corpora_docs": {
+    "current": 2115,
+    "mixed": 3426,
+    "tagged": 3426
+  },
+  "retrieval_recall_top5_gold_is_recommendation": {
+    "A1": {
+      "targets": "500/792",
+      "controls": "428/792"
+    },
+    "A2": {
+      "targets": "605/792",
+      "controls": "592/792"
+    },
+    "A3": {
+      "targets": "631/792",
+      "controls": "608/792"
+    }
+  },
+  "note": "Recall reported, not tuned (evaluation items must not be used for tuning)."
+}

@@ -30,8 +30,11 @@ Last updated: 2026-10-09 (end of P00).
   - **Pending:** the researcher's 20-item manual check in `data/p01/g1_sanity_sample_fulltext.csv`.
 - **P02 (2026-10-09):** the question set is FROZEN (`data/p02/items_v1.jsonl`, SHA-256 6189860…,
   3,116 questions) with prompt v001 (SHA-256 0880a65…). **Never edit either.** Any change means a
-  new versioned file and a registry entry. Still open: the model list and budget (researcher
-  decision), and the retrieval corpora for arms A1–A3.
+  new versioned file and a registry entry.
+- **P03 harness ready (protocol v0.7):** models are `meta-llama/Llama-3.1-8B-Instruct` and
+  `claude-sonnet-5-5` (no refusal fallback). The corpora are built and the zero-cost dry run
+  passed. **Next:** the researcher runs P03 following `docs/running_p03.md` (needs an API key and an
+  HF token), then P04 analysis on `results/p03/runs/*.jsonl`.
   - Do not build RAG, LoRA, verifier, conflict engine or UI before the manual check and G2.
 - **CPIC licence:** CC0 1.0. The ClinPGx data usage policy is still unread, so CPIC text stays out
   of git.
