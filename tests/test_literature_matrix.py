@@ -51,13 +51,21 @@ def test_already_covered_in_pgx_must_not_be_claimed(rows):
 
 def test_candidate_gaps_match_audit(rows):
     # docs/novelty_audit.md section 5 relies on exactly these PGx candidate gaps.
+    # After G0 (2026-10-09), abstention is covered in PGx by PGxQA's refusal assessment.
     assert set(candidate_gaps(rows, domain="pgx")) == {
         "multi_guideline_conflict",
         "evidence_verification",
         "temporal_updates",
         "counterfactual_eval",
-        "uncertainty_abstention",
     }
+
+
+def test_no_full_text_pgx_work_evaluates_temporal_drift(rows):
+    # G0 pass condition: no PGx computational work read in full has temporal_updates == 'yes'.
+    deep = {"full_text", "repo_results"}
+    full = [r for r in rows if r["domain"] == "pgx" and r["access"] in deep]
+    assert len(full) >= 7
+    assert not [r["id"] for r in full if r["temporal_updates"] == "yes"]
 
 
 def test_human_reviews_do_not_count_as_system_coverage(rows):
@@ -72,8 +80,7 @@ def test_gap_methods_exist_outside_pgx(rows):
     # Honest framing: for these PGx gaps the *method* exists in general medicine, so the
     # contribution can only be the PGx instantiation, not a new method.
     elsewhere = covered_elsewhere(rows, domain="pgx")
-    for axis in ("temporal_updates", "multi_guideline_conflict",
-                 "evidence_verification", "uncertainty_abstention"):
+    for axis in ("temporal_updates", "multi_guideline_conflict", "evidence_verification"):
         assert elsewhere[axis], axis
     # Counterfactual evaluation has no 'yes' anywhere in the matrix.
     assert elsewhere["counterfactual_eval"] == []

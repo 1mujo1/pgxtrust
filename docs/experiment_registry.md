@@ -21,7 +21,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P00-E03 | P00 | Literature search + matrix (25 rows; 27 after E05) | done | Matrix valid; 13/13 tests pass at that point |
 | P00-E04 | P00 | Defensibility assessment + freeze core question | done | Core question = CPIC guideline-version drift (protocol v0.1); pivot = CPIC–DPWG conflicts |
 | P00-E05 | P00 | Realignment with the master instructions (README.md) | done | Protocol v0.2 (maps to master H4); +2 searches, +2 matrix rows (27); data_sources.md; 15 tests pass |
-| P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | planned | — |
+| P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | **pass (candidate A)** | 7/8 full texts + preprint search; temporal and conflict still gaps; abstention now covered (PGxQA) |
 | P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
 | P02-G2 | P02 | Power check on real item count | planned | — |
 
@@ -119,9 +119,30 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
   safety classifier (writing downloaded text into an instructions file), and not pursued further.
 - **Tests:** `pytest -q` → 15 passed; `ruff check .` → all checks passed.
 
-## P01-G0 — Literature completion (planned)
+## P01-G0 — Literature completion
 
-See protocol §6 G0.
+- **Date:** 2026-10-09
+- **Inputs:**
+  - Full texts of zack2026npj, zack2025pgxj, keat2025pgxqa, rector2025sherpa, murugan2024 and
+    borishetty2025pgxrag.
+  - The Corpas bioRxiv preprint.
+  - Europe PMC title/abstract search over preprints and papers, 2024–2026 (queries in
+    `docs/novelty_audit.md` §7).
+  - Not obtained: jeon2026hrag (paywalled; stays `unknown`).
+- **Method:** keyword-targeted reading of each full text (versions, updates, outdated, DPWG,
+  conflict, abstention, refusal). Matrix rows were updated, and axes not searched remain
+  `unknown`.
+- **Result:** **PASS** for candidate A.
+  - No PGx work evaluates answers across real guideline versions. Zack 2026 describes an updater
+    mode but does not evaluate it; Corpas recommends regression-testing against guideline updates
+    but does not run it.
+  - Candidate B (conflicts) is also still open.
+  - **Correction:** PGxQA measures refusal on misspecified questions, so PGx abstention is
+    covered.
+- **Licence:** CPIC content is CC0 1.0 (cpic-data `LICENSE.md`). The ClinPGx data usage policy
+  that also binds the DB/API is unread (JavaScript-only page), so CPIC text stays out of git for
+  now.
+- **Tests:** 35 passed, including the new `test_no_full_text_pgx_work_evaluates_temporal_drift`.
 
 ## P01-G1 — CPIC release-diff feasibility
 

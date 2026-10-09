@@ -9,8 +9,6 @@
       ],
       "partial": [],
       "unknown": [
-        "zack2026npj",
-        "zack2025pgxj",
         "keat2025pgxqa",
         "murugan2024",
         "borishetty2025pgxrag",
@@ -23,6 +21,7 @@
       "yes": [
         "arafin2026",
         "zack2026npj",
+        "zack2025pgxj",
         "murugan2024",
         "borishetty2025pgxrag",
         "rector2025sherpa",
@@ -32,7 +31,6 @@
         "corpas2026"
       ],
       "unknown": [
-        "zack2025pgxj",
         "keat2025pgxqa",
         "hsu2025jmir"
       ]
@@ -40,15 +38,11 @@
     "multi_guideline_conflict": {
       "yes": [],
       "partial": [
+        "murugan2024",
         "borishetty2025pgxrag",
         "pharmcat"
       ],
       "unknown": [
-        "zack2026npj",
-        "zack2025pgxj",
-        "keat2025pgxqa",
-        "murugan2024",
-        "rector2025sherpa",
         "jeon2026hrag",
         "hsu2025jmir"
       ]
@@ -73,16 +67,12 @@
       "partial": [
         "corpas2026",
         "zack2026npj",
+        "keat2025pgxqa",
         "hsu2025jmir",
         "pharmcat",
         "overby2017ahrq"
       ],
       "unknown": [
-        "zack2025pgxj",
-        "keat2025pgxqa",
-        "murugan2024",
-        "borishetty2025pgxrag",
-        "rector2025sherpa",
         "jeon2026hrag"
       ]
     },
@@ -103,7 +93,9 @@
       ]
     },
     "uncertainty_abstention": {
-      "yes": [],
+      "yes": [
+        "keat2025pgxqa"
+      ],
       "partial": [
         "arafin2026",
         "corpas2026",
@@ -111,12 +103,6 @@
         "pharmcat"
       ],
       "unknown": [
-        "zack2026npj",
-        "zack2025pgxj",
-        "keat2025pgxqa",
-        "murugan2024",
-        "borishetty2025pgxrag",
-        "rector2025sherpa",
         "jeon2026hrag"
       ]
     },
@@ -125,13 +111,13 @@
         "corpas2026"
       ],
       "partial": [
+        "murugan2024",
         "pharmcat"
       ],
       "unknown": [
         "zack2026npj",
         "zack2025pgxj",
         "keat2025pgxqa",
-        "murugan2024",
         "borishetty2025pgxrag",
         "rector2025sherpa",
         "jeon2026hrag",
@@ -143,8 +129,7 @@
     "multi_guideline_conflict",
     "evidence_verification",
     "temporal_updates",
-    "counterfactual_eval",
-    "uncertainty_abstention"
+    "counterfactual_eval"
   ],
   "covered_outside_pgx": {
     "executable_rules": [

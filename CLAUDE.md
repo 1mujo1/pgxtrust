@@ -20,9 +20,15 @@ Last updated: 2026-10-09 (end of P00).
   smallest defensible slice of the master programme and corresponds to master hypothesis **H4**
   (version-aware executable knowledge vs parametric/RAG knowledge), measured on real CPIC release
   history (master §13).
-- **Next research gate:** master P01 (versioned official-source ingestion), run as gates **G0**
-  (literature completion) and **G1** (CPIC release-diff feasibility). Thresholds are frozen in
-  protocol §6. Do not build RAG, LoRA, verifier, conflict engine or UI before G1 passes.
+- **P01 status (2026-10-09):**
+  - **G0 PASS:** no PGx work evaluates real version drift; abstention is now covered by PGxQA.
+  - **G1 automatic criteria PASS:** 228 conservative items, 6 guidelines, 43 net post-2025 items,
+    all thiopurines.
+  - **Pending:** the researcher's 20-item manual check in
+    `data/p01/g1_sanity_sample_fulltext.csv`, and the G2 power check.
+  - Do not build RAG, LoRA, verifier, conflict engine or UI before the manual check and G2.
+- **CPIC licence:** CC0 1.0. The ClinPGx data usage policy is still unread, so CPIC text stays out
+  of git.
 
 ## What P00 found (do not contradict without new evidence)
 

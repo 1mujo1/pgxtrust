@@ -9,12 +9,12 @@ Legend: ● yes · ◐ partial · ○ no · ? unknown (not read in enough depth)
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `arafin2026` | Arafin, Moniruzzaman & Alkhateeb | 2026 | pgx | system | full_text | ○ | ● | ○ | ○ | ○ | ○ | ◐ | ○ |
 | `corpas2026` | Corpas et al. | 2026 | pgx | benchmark | repo_results | ● | ◐ | ○ | ○ | ◐ | ◐ | ◐ | ● |
-| `zack2026npj` | Zack et al. | 2026 | pgx | system | abstract | ? | ● | ? | ◐ | ◐ | ? | ? | ? |
-| `zack2025pgxj` | Zack et al. | 2025 | pgx | benchmark | abstract | ? | ? | ? | ? | ? | ? | ? | ? |
-| `keat2025pgxqa` | Keat et al. (PGxQA) | 2025 | pgx | benchmark | abstract | ? | ? | ? | ? | ? | ? | ? | ? |
-| `murugan2024` | Murugan et al. | 2024 | pgx | system | abstract | ? | ● | ? | ? | ? | ? | ? | ? |
-| `borishetty2025pgxrag` | Borishetty et al. (PGxRAG) | 2025 | pgx | system | abstract | ? | ● | ◐ | ? | ? | ? | ? | ? |
-| `rector2025sherpa` | Rector et al. (Sherpa Rx) | 2025 | pgx | system | abstract | ? | ● | ? | ? | ? | ? | ? | ? |
+| `zack2026npj` | Zack et al. | 2026 | pgx | system | full_text | ○ | ● | ○ | ◐ | ◐ | ? | ○ | ? |
+| `zack2025pgxj` | Zack et al. | 2025 | pgx | benchmark | full_text | ○ | ● | ○ | ? | ○ | ? | ○ | ? |
+| `keat2025pgxqa` | Keat et al. (PGxQA) | 2025 | pgx | benchmark | full_text | ? | ? | ○ | ? | ◐ | ? | ● | ? |
+| `murugan2024` | Murugan et al. | 2024 | pgx | system | full_text | ? | ● | ◐ | ? | ○ | ? | ○ | ◐ |
+| `borishetty2025pgxrag` | Borishetty et al. (PGxRAG) | 2025 | pgx | system | full_text | ? | ● | ◐ | ? | ○ | ? | ○ | ? |
+| `rector2025sherpa` | Rector et al. (Sherpa Rx) | 2025 | pgx | system | full_text | ? | ● | ○ | ? | ○ | ? | ○ | ? |
 | `jeon2026hrag` | Jeon et al. | 2026 | pgx | system | abstract | ? | ● | ? | ? | ? | ? | ? | ? |
 | `hsu2025jmir` | Hsu et al. | 2025 | pgx | evaluation | abstract | ? | ? | ? | ◐ | ◐ | ? | ◐ | ? |
 | `pharmcat` | PharmCAT (Sangkuhl et al. 2019; Li et al. 2022) | 2026 | pgx | system | docs | ● | ○ | ◐ | – | ◐ | – | ◐ | ◐ |
@@ -54,67 +54,67 @@ Legend: ● yes · ◐ partial · ○ no · ? unknown (not read in enough depth)
 - **Link:** https://github.com/manuelcorpas/24-AGENTIC-PGX-BENCHMARK
 - **Problem / method:** Matched 5-cell comparison: knowledge (none / retrieved CPIC prose / structured rules) x mechanism (LLM generates / code executes); 110 CPIC Level A cases x 8 LLMs x 3 reps
 - **Knowledge sources:** CPIC Level A; PharmGKB; PyPGx real-genome arm; PharmCAT concordance
-- **Evidence / limitations:** CLOSEST COMPETITOR. RESULTS-REVISION.md (fetched 2026-10-09): executed CPIC mapping ~0.97 recommendation accuracy; RAG generation 0.55 with 137 lethal-class errors vs 54 for free generation. Under execution, residual error localises to the calling/input-interpretation step (call concordance 0.958). PharmCAT concordance 83/83 where both emit; PharmCAT abstains on 4. Adversarial scrambled/reversed specs = partial counterfactual. CPIC only (Zenodo 10.5281/zenodo.21710055 does not mention DPWG). Argues for versioned skills (model retirement) but public results contain no guideline-version-drift experiment. RAG used for answering; explanations not evaluated. Founder conflict of interest (ClawBio) declared. Not yet peer reviewed.
+- **Evidence / limitations:** CLOSEST COMPETITOR. RESULTS-REVISION.md (fetched 2026-10-09): executed CPIC mapping ~0.97 recommendation accuracy; RAG generation 0.55 with 137 lethal-class errors vs 54 for free generation. Under execution, residual error localises to the calling/input-interpretation step (call concordance 0.958). PharmCAT concordance 83/83 where both emit; PharmCAT abstains on 4. Adversarial scrambled/reversed specs = partial counterfactual. CPIC only (Zenodo 10.5281/zenodo.21710055 does not mention DPWG). Argues for versioned skills (model retirement) but public results contain no guideline-version-drift experiment. RAG used for answering; explanations not evaluated. Founder conflict of interest (ClawBio) declared. Not yet peer reviewed. G0: bioRxiv preprint 10.64898/2026.06.11.731523 (v1 2026-06-15) read in full (keyword-targeted): 'versioned' = provenance of skills; RECOMMENDS 'regression-testing the skill against guideline updates' but no experiment varies the guideline version.
 - **Relation to PGxTrust:** Pre-empts 'executable rules beat RAG' and failure attribution. PGxTrust must cite it and not claim those; its CPIC-only, single-version design leaves version drift and DPWG open.
 
 ### `zack2026npj` — Zack et al. (2026)
 
 - **Title:** An agentic AI system for automated pharmacogenomic recommendation generation
-- **Venue / status:** npj Digital Medicine 9:541 · peer_reviewed · read: abstract
+- **Venue / status:** npj Digital Medicine 9:541 · peer_reviewed · read: full_text
 - **Link:** 10.1038/s41746-026-02590-w
 - **Problem / method:** Agentic pipeline generating CPIC-style recommendations from full-text literature and FDA labels
 - **Knowledge sources:** Full-text literature; FDA drug labels; CPIC as reference
-- **Evidence / limitations:** Entity extraction 91.9% across 22 articles; 24 expert-rated recommendations vs GPT-5/Claude/Grok baselines. Evidence aggregation across studies = partial verification. 'Faster updates' is motivation; no temporal evaluation visible in abstract. Industry authors (PGxAI Inc.). Full text not read (Nature returned auth redirect).
+- **Evidence / limitations:** G0 full text (PMC13369662; keyword-targeted reading). Agentic LLM pipeline from literature + FDA labels; 24 expert-rated recommendations, 22 articles for extraction. Describes an 'updater mode, suggesting revisions for outdated guidelines' but does NOT evaluate it; no cross-version test. DPWG only mentioned as a possible adaptation. No abstention/uncertainty measurement. Industry authors (PGxAI Inc.).
 - **Relation to PGxTrust:** Evidence-synthesis competitor; check full text for any update/version evaluation (G0).
 
 ### `zack2025pgxj` — Zack et al. (2025)
 
 - **Title:** Benchmarking large language models for replication of guideline-based PGx recommendations
-- **Venue / status:** Pharmacogenomics Journal 25:23 · peer_reviewed · read: abstract
+- **Venue / status:** Pharmacogenomics Journal 25:23 · peer_reviewed · read: full_text
 - **Link:** 10.1038/s41397-025-00383-0
 - **Problem / method:** Benchmark of 599 CPIC gene-drug-phenotype scenarios; 5 LLMs incl. fine-tuned Llama; LLM Score validated by experts
 - **Knowledge sources:** CPIC
-- **Evidence / limitations:** Abstract only. A search snippet of the Research Square preprint mentions CPIC and DPWG scenarios (unverified). Industry authors (PGxAI Inc.).
+- **Evidence / limitations:** G0 full text (Research Square preprint rs-6630450, version of record = this paper; keyword-targeted reading). CPIC-only benchmark: 'we did not incorporate data from other authorities like DPWG'. Contrasts naive vs retrieval/fine-tuning-enhanced LLMs. 'model confidence was not explicitly quantified'. No version/update evaluation. Industry authors (PGxAI Inc.).
 - **Relation to PGxTrust:** Possible benchmark overlap; check for DPWG scenarios and version handling (G0).
 
 ### `keat2025pgxqa` — Keat et al. (PGxQA) (2025)
 
 - **Title:** PGxQA: A Resource for Evaluating LLM Performance for Pharmacogenomic QA Tasks
-- **Venue / status:** Pacific Symposium on Biocomputing 30:229-246 · peer_reviewed · read: abstract
+- **Venue / status:** Pacific Symposium on Biocomputing 30:229-246 · peer_reviewed · read: full_text
 - **Link:** 10.1142/9789819807024_0017
 - **Problem / method:** PGxQA benchmark: clinician/patient/researcher PGx questions over CPIC Level A; GPT-4o and others
 - **Knowledge sources:** CPIC; PharmGKB
-- **Evidence / limitations:** Abstract only. Alkhateeb 2026 (Sec 2) states PGxQA does not implement RAG. Used as evaluation set by Jeon 2026.
+- **Evidence / limitations:** G0 full text (PSB proceedings PDF; keyword-targeted reading). Measures REFUSAL rates on misspecified questions (fabricated genes/alleles) vs properly specified ones: Llama/Gemini <0.2 refusal on misspecified queries. Notes PGx guidelines are 'revised and updated irregularly' and that questions are regenerated from the routinely updated CPIC DB, but no cross-version evaluation. DPWG mentioned only as background.
 - **Relation to PGxTrust:** Reusable public QA set; candidate external sanity benchmark.
 
 ### `murugan2024` — Murugan et al. (2024)
 
 - **Title:** Empowering personalized pharmacogenomics with generative AI solutions
-- **Venue / status:** JAMIA 31(6):1356-1366 · peer_reviewed · read: abstract
+- **Venue / status:** JAMIA 31(6):1356-1366 · peer_reviewed · read: full_text
 - **Link:** 10.1093/jamia/ocae039
 - **Problem / method:** GPT-4 assistant with RAG over a CPIC knowledge base, prompt engineering and guardrails
 - **Knowledge sources:** CPIC
-- **Evidence / limitations:** Abstract only. Compared against ChatGPT-3.5 on a PGx question catalogue.
+- **Evidence / limitations:** G0 full text (PMC11105140, read via summarising fetch). KB includes CPIC + DPWG recommendations + FDA rosuvastatin label, but agreement/conflict between sources not evaluated. No version/update evaluation (only access dates). No abstention measurement. Retrieval tested separately (diplotype recall 0.61-0.72) = partial attribution. 47 provider + 33 patient queries, 4 expert raters.
 - **Relation to PGxTrust:** Early CPIC RAG baseline to cite.
 
 ### `borishetty2025pgxrag` — Borishetty et al. (PGxRAG) (2025)
 
 - **Title:** PGxRAG: A Retrieval Augmented Generation supported Pharmacogenomics Assistant
-- **Venue / status:** medRxiv · preprint · read: abstract
+- **Venue / status:** medRxiv · preprint · read: full_text
 - **Link:** 10.1101/2025.09.24.25336524
 - **Problem / method:** 4 LLMs with/without RAG; 225 multiple-choice questions; hyperparameter sweep
 - **Knowledge sources:** ClinPGx/PharmGKB, CPIC, DPWG (KNMP), FDA; 2617 chunks
-- **Evidence / limitations:** Multi-source knowledge base includes DPWG and FDA, but evaluation is MCQ accuracy (GPT-4o+RAG 95.1% vs 89.8% native); conflict handling not reported in abstract.
+- **Evidence / limitations:** G0 full text (medRxiv v3 JATS XML; keyword-targeted reading). KB: CPIC, DPWG (KNMP PDFs), RNPGx, FDA, PharmGKB; chunks tagged with source metadata. 225 MCQs with one SME-verified answer; disagreements between sources not discussed or evaluated. No version or abstention evaluation.
 - **Relation to PGxTrust:** Closest multi-guideline RAG; check whether conflicts are evaluated (G0).
 
 ### `rector2025sherpa` — Rector et al. (Sherpa Rx) (2025)
 
 - **Title:** Validating Pharmacogenomics Generative Artificial Intelligence Query Prompts Using Retrieval-Augmented Generation (RAG)
-- **Venue / status:** arXiv · preprint · read: abstract
+- **Venue / status:** arXiv · preprint · read: full_text
 - **Link:** arXiv:2507.21453
 - **Problem / method:** RAG PGx assistant evaluated on 260 queries over 26 CPIC guidelines
 - **Knowledge sources:** CPIC; PharmGKB
-- **Evidence / limitations:** Abstract only. Alkhateeb 2026 notes small sample size.
+- **Evidence / limitations:** G0 full text (arXiv PDF; keyword-targeted reading). RAG over CPIC + PharmGKB; 260 queries over 26 CPIC guidelines. No version, conflict or refusal/abstention evaluation found.
 - **Relation to PGxTrust:** RAG baseline to cite.
 
 ### `jeon2026hrag` — Jeon et al. (2026)

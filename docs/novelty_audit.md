@@ -249,7 +249,7 @@ from `results/p00/literature_coverage.json`.
 | Executable PGx rules | Corpas 2026, PharmCAT | — | — | **Covered** |
 | RAG explanations | Arafin 2026, Murugan, PGxRAG, Sherpa Rx, Jeon, Zack 2026 | Corpas | yes | **Covered** |
 | Failure attribution | Corpas 2026 | PharmCAT | RAGChecker, RAG-X | **Covered** |
-| Uncertainty / abstention | — | Arafin (prompted, unmeasured), Corpas, Hsu, PharmCAT | Han 2026, MedAbstain | Method covered; PGx measurement thin |
+| Uncertainty / abstention | PGxQA (Keat 2025): refusal rates on misspecified questions *(found in G0)* | Arafin (prompted, unmeasured), Corpas, Hsu, PharmCAT | Han 2026, MedAbstain | **Covered** (updated after G0) |
 | Evidence verification | — | Zack 2026, Hsu | MedRAGChecker, RAGChecker, DrugAudit | Method covered; PGx application thin |
 | Multi-guideline conflict | — | PharmCAT (side by side, no reconciliation), PGxRAG (multi-source KB) | Han 2026, Xie 2026 | **Candidate gap in PGx** |
 | Temporal guideline updates | — | Corpas (argued), Zack 2026 (motivation), Hsu, PharmCAT (pinned data) | DriftMedQA, TempoMed | **Candidate gap in PGx** |
@@ -318,6 +318,44 @@ See `docs/research_protocol.md` §6 for the full gate definitions.
 
 ---
 
+## 6b. Gate G0 result (2026-10-09): PASS for candidate A, with one correction
+
+**Method.** Full texts were obtained for 7 of the 8 PGx works marked `unknown`:
+- Zack 2026 (PMC13369662);
+- Zack 2025 (Research Square version of record);
+- PGxQA (PSB proceedings PDF);
+- Sherpa Rx (arXiv);
+- Murugan 2024 (PMC page);
+- PGxRAG (medRxiv v3 JATS XML);
+- the Corpas bioRxiv preprint (10.64898/2026.06.11.731523), found by the preprint search below.
+
+Each was read for passages on versions, updates, outdated knowledge, DPWG, conflicts and
+abstention. Jeon 2026 is paywalled and stays abstract-only.
+
+The preprint search used Europe PMC (which indexes medRxiv and bioRxiv), restricted to titles and
+abstracts from 2024 to 2026, with PGx terms ∧ LLM terms:
+- 23 hits overall;
+- 3 with update/version/temporal terms: Zack 2026, Hsu 2025, Corpas bioRxiv;
+- 1 with conflict terms: Hsu 2025.
+
+**Findings.**
+- **Temporal (candidate A): still a gap.**
+  - No PGx work evaluates LLM answers across real guideline versions.
+  - Zack 2026 *describes* an "updater mode, suggesting revisions for outdated guidelines" but does
+    not evaluate it.
+  - The Corpas preprint *recommends* "regression-testing the skill against guideline updates" but
+    runs no such experiment.
+  - PGxQA and Zack 2025 only motivate the problem.
+  - Enforced by `test_no_full_text_pgx_work_evaluates_temporal_drift`.
+- **Conflict (candidate B): still a gap.**
+  - Murugan 2024 and PGxRAG put DPWG and FDA content in the knowledge base, but neither evaluates
+    disagreements.
+  - Zack 2025 explicitly excludes DPWG.
+- **Correction:** PGxQA *does* evaluate refusal on misspecified questions. "Abstention in PGx" is
+  therefore covered, and the §4 table is updated. This does not affect the core question.
+
+---
+
 ## 7. Search log
 
 | Source | Query / action | Date |
@@ -331,6 +369,8 @@ See `docs/research_protocol.md` §6 for the full gate definitions.
 | Zenodo | record 21710055 | 2026-10-09 |
 | Web search (2nd pass, after reading master instructions) | PGx CDS knowledge maintenance / CPIC guideline updates in EHR rules; neuro-symbolic RAG with executable clinical guidelines | 2026-10-09 |
 | AHRQ digital healthcare research | project page for R21 HS023390 | 2026-10-09 |
+| Europe PMC REST (G0) | TITLE_ABS:(pharmacogenomic\*/pharmacogenetic\*/CPIC/DPWG/PharmCAT) ∧ TITLE_ABS:(LLM/GPT/RAG/chatbot/generative AI/agentic), 2024–2026; plus ∧ (update\*/outdated/version\*/temporal/drift) and ∧ (discordan\*/conflict\*/disagree\*/inconsisten\*/harmoni\*) | 2026-10-09 |
+| Full texts (G0) | PMC13369662; Research Square rs-6630450; PSB keat.pdf; arXiv 2507.21453; PMC11105140; medRxiv JATS v3; bioRxiv JATS 2026.06.11.731523 | 2026-10-09 |
 | CPIC API | `/v1/recommendation`, `/v1/guideline` | 2026-10-09 |
 
 **Known blind spots:**
