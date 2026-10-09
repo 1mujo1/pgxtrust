@@ -8,6 +8,8 @@ outputs · result · status · notes**.
 
 Status values: `planned` · `running` · `done` · `failed` · `abandoned` · `superseded`.
 
+P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch `main`).
+
 ---
 
 ## Summary
