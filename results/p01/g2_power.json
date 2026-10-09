@@ -1,0 +1,213 @@
+{
+  "assumed_truth": {
+    "p_unchanged": 0.8,
+    "p_changed": 0.65,
+    "penalty": 0.15
+  },
+  "n_items": 228,
+  "simulation": {
+    "n_sims": 200,
+    "n_boot": 1000,
+    "seed": 20261009,
+    "matching": "1:1"
+  },
+  "decision_rule": "pre-specified: PRIMARY mean half-width <= 0.1; post hoc (stricter, used for the decision): STRICT also <= the limit",
+  "g2_pass_prespecified": true,
+  "g2_pass_strict": false,
+  "scenarios": {
+    "PRIMARY (pre-specified) pair clusters, sd=1.0": {
+      "cluster_sizes": [
+        43,
+        38,
+        34,
+        30,
+        16,
+        16,
+        14,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 0.0,
+      "mean_half_width": 0.07915855354908684,
+      "share_lower_bound_above_zero": 0.875,
+      "mean_estimate": 0.13460526315789476
+    },
+    "pair clusters, sd=0.5": {
+      "cluster_sizes": [
+        43,
+        38,
+        34,
+        30,
+        16,
+        16,
+        14,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1
+      ],
+      "cluster_sd": 0.5,
+      "penalty_sd": 0.0,
+      "mean_half_width": 0.07870641473382742,
+      "share_lower_bound_above_zero": 0.895,
+      "mean_estimate": 0.14399122807017545
+    },
+    "pair clusters, sd=0 (no clustering effect)": {
+      "cluster_sizes": [
+        43,
+        38,
+        34,
+        30,
+        16,
+        16,
+        14,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1
+      ],
+      "cluster_sd": 0.0,
+      "penalty_sd": 0.0,
+      "mean_half_width": 0.07755303807669078,
+      "share_lower_bound_above_zero": 0.945,
+      "mean_estimate": 0.15421052631578946
+    },
+    "guideline clusters, sd=1.0": {
+      "cluster_sizes": [
+        115,
+        35,
+        32,
+        30,
+        14,
+        2
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 0.0,
+      "mean_half_width": 0.07990575162672549,
+      "share_lower_bound_above_zero": 0.875,
+      "mean_estimate": 0.13717105263157894
+    },
+    "thiopurines only (post-cutoff stratum), sd=1.0": {
+      "cluster_sizes": [
+        43,
+        38,
+        34
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 0.0,
+      "mean_half_width": 0.09085312432844775,
+      "share_lower_bound_above_zero": 0.685,
+      "mean_estimate": 0.13691304347826086
+    },
+    "STRICT (post hoc) pair clusters, penalty_sd=1.0": {
+      "cluster_sizes": [
+        43,
+        38,
+        34,
+        30,
+        16,
+        16,
+        14,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 1.0,
+      "mean_half_width": 0.1294577685641487,
+      "share_lower_bound_above_zero": 0.605,
+      "mean_estimate": 0.14633771929824563
+    },
+    "pair clusters, penalty_sd=0.5": {
+      "cluster_sizes": [
+        43,
+        38,
+        34,
+        30,
+        16,
+        16,
+        14,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        1,
+        1
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 0.5,
+      "mean_half_width": 0.09608754393608834,
+      "share_lower_bound_above_zero": 0.825,
+      "mean_estimate": 0.1380921052631579
+    },
+    "guideline clusters, penalty_sd=1.0": {
+      "cluster_sizes": [
+        115,
+        35,
+        32,
+        30,
+        14,
+        2
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 1.0,
+      "mean_half_width": 0.146048389747857,
+      "share_lower_bound_above_zero": 0.525,
+      "mean_estimate": 0.1404824561403509
+    },
+    "guideline clusters, penalty_sd=0.5": {
+      "cluster_sizes": [
+        115,
+        35,
+        32,
+        30,
+        14,
+        2
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 0.5,
+      "mean_half_width": 0.10198645582417157,
+      "share_lower_bound_above_zero": 0.735,
+      "mean_estimate": 0.13508771929824562
+    },
+    "thiopurines only, penalty_sd=1.0": {
+      "cluster_sizes": [
+        43,
+        38,
+        34
+      ],
+      "cluster_sd": 1.0,
+      "penalty_sd": 1.0,
+      "mean_half_width": 0.168251093404708,
+      "share_lower_bound_above_zero": 0.395,
+      "mean_estimate": 0.1456086956521739
+    }
+  }
+}

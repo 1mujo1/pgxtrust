@@ -23,7 +23,7 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
 | P00-E05 | P00 | Realignment with the master instructions (README.md) | done | Protocol v0.2 (maps to master H4); +2 searches, +2 matrix rows (27); data_sources.md; 15 tests pass |
 | P01-G0 | P01 | Literature completion (full texts of `unknown` PGx rows) | **pass (candidate A)** | 7/8 full texts + preprint search; temporal and conflict still gaps; abstention now covered (PGxQA) |
 | P01-G1 | P01 | CPIC release-diff feasibility | **automatic criteria pass; manual check pending** | 228 conservative items, 6 guidelines, 43 net post-2025 items — but all post-2025 items are thiopurines |
-| P02-G2 | P02 | Power check on real item count | planned | — |
+| P02-G2 | P02 | Power check on real item count | **fail (strict) → expansion proposed** | Pre-specified model 7.9 pts (pass) was flawed; strict model 12.9 pts (fail); adding new-pair items → 6.8 pts |
 
 ---
 
@@ -189,6 +189,41 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
      second item type for P02, not counted here.
 - **Status:** automatic criteria pass; manual check pending; G0 not started.
 
-## P02-G2 — Power check (planned)
+## P02-G2 — Power / precision check
 
-See protocol §6 G2.
+- **Date:** 2026-10-09
+- **Code:** `src/pgxtrust/power.py`, `scripts/p01_g2_power.py` (41 tests pass). Output in
+  `results/p01/g2_power.json`.
+- **Set-up:**
+  - Assumed truth: 80% accuracy on unchanged items vs 65% on changed items (a 15-point penalty).
+  - 1:1 matched unchanged items.
+  - Cluster bootstrap (1,000 resamples) × 200 simulated studies, seed 20261009.
+  - Items: the 228 conservative G1 items in 16 gene–drug clusters (43, 38, 34, 30, 16, 16, 14,
+    seven of 5, two of 1).
+- **Pre-specified decision** (pair clusters, cluster_sd = 1.0): half-width **0.079 → pass**.
+- **Flaw found after running:**
+  - The half-width barely moved with the number of clusters (16 → 3) or with cluster_sd.
+  - Cause: the simulated cluster effect shifted changed and unchanged items equally, so it
+    cancelled out of the difference. That implicitly assumed the same penalty for every drug.
+  - **Post hoc fix:** a `penalty_sd` term lets the penalty vary by cluster. A regression test
+    (`test_penalty_heterogeneity_widens_intervals`) covers it.
+- **Strict result (post hoc, used for the decision):**
+
+  | Scenario | Half-width | P(lower CI > 0) |
+  |---|---|---|
+  | pair clusters (16), penalty_sd = 1.0 | **0.129 ❌** | 0.60 |
+  | pair clusters, penalty_sd = 0.5 | 0.096 | 0.82 |
+  | guideline clusters (6), penalty_sd = 1.0 | 0.146 | 0.53 |
+  | thiopurines only (3), penalty_sd = 1.0 | 0.168 | 0.40 |
+
+- **Decision:** **G2 FAILS** under the strict model. The protocol §6 rule applies: expand the item
+  pool before any model run.
+- **Expansion options evaluated (exploratory, not yet adopted):**
+  - **Option 1, new gene–drug pairs (N items):** before the guideline existed the correct as-of
+    answer is "CPIC has no recommendation". This gives 629 items in 68 pairs (64 new) across 9
+    guidelines. Core + N = 80 pair clusters: half-width **0.068**, P = 0.99 (penalty_sd = 1.0).
+    Clustered by guideline (12): 0.120.
+  - **Option 2, re-keyed rows** (threshold/phenotype redefinitions, 35 pairs): needs
+    genotype-to-phenotype logic, and many are pure formatting changes. Not pursued now.
+- **Status:** awaiting the researcher's decision on adopting Option 1 (protocol v0.5). This changes
+  the composition of the primary item pool, so it is not adopted automatically.

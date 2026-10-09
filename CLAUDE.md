@@ -24,8 +24,10 @@ Last updated: 2026-10-09 (end of P00).
   - **G0 PASS:** no PGx work evaluates real version drift; abstention is now covered by PGxQA.
   - **G1 automatic criteria PASS:** 228 conservative items, 6 guidelines, 43 net post-2025 items,
     all thiopurines.
-  - **Pending:** the researcher's 20-item manual check in
-    `data/p01/g1_sanity_sample_fulltext.csv`, and the G2 power check.
+  - **G2 FAILS (strict model):** CI half-width 12.9 points with 16 clusters. Adding new-pair (N)
+    items would give 80 clusters and 6.8 points. Waiting on the researcher's decision (protocol
+    v0.5).
+  - **Pending:** the researcher's 20-item manual check in `data/p01/g1_sanity_sample_fulltext.csv`.
   - Do not build RAG, LoRA, verifier, conflict engine or UI before the manual check and G2.
 - **CPIC licence:** CC0 1.0. The ClinPGx data usage policy is still unread, so CPIC text stays out
   of git.
