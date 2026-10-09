@@ -222,8 +222,17 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
   - bare activity-score numbers.
 - **Carried caveat:** most controls come from other guidelines. Protocol v0.6 pre-registers a
   same-pair/same-guideline sensitivity analysis and the control-free date-flip analysis.
-- **Not yet frozen (needs the researcher):** the model list, decoding settings, and API/compute
-  budget. Retrieval corpora for arms A1–A3 are still to be built.
+- **Model decision (researcher, 2026-10-09):** "Llama-8B + 1 hosted model".
+  - **Open:** `meta-llama/Llama-3.1-8B-Instruct` on Colab GPU, the same model as the target paper.
+  - **Hosted:** `claude-sonnet-5-5` via the Anthropic API (Claude's default choice; the researcher
+    may swap it).
+  - **Decoding:** temperature 0; max 5 output tokens; one call per question; 3 attempts on API
+    errors, never scored.
+  - **Still needed before running:**
+    - an Anthropic API key in `.env` (never committed);
+    - a Hugging Face token with the Llama 3.1 licence accepted (gated model);
+    - the retrieval corpora for arms A1–A3;
+    - the training cut-off date of each model, recorded from its official documentation.
 
 ## P02-G2 — Power / precision check
 
