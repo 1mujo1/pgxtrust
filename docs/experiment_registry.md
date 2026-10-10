@@ -266,6 +266,14 @@ P00 artefacts (E01–E05) are at git commit `4463d9d` (pushed 2026-10-09, branch
   - the tokenizer glued full stops to words, so drug names never matched;
   - duplicate questions were answered twice within one run;
   - the metadata check would have blocked resuming after a new commit.
+- **Model plan revised (2026-10-10):** the researcher asked for a free option. The workload is about
+  8.1M input tokens and 12,464 calls per model. Free hosted tiers would take weeks (reported caps,
+  unverified), and FreeLLMAPI switches models under rate limits (invalid for research).
+  - **Recommended:** both target-paper models on free Colab: `meta-llama/Llama-3.1-8B-Instruct` @
+    `0e9e39f2…` (gated) and `Qwen/Qwen3-8B` @ `b968826d…` (the paper's own revision; Apache-2.0,
+    ungated).
+  - `claude-sonnet-5-5` becomes optional; a paid hosted model can be added later as a bonus.
+  - Awaiting the researcher's confirmation.
 - **Ready for real runs:** see `docs/running_p03.md`. This needs the researcher's Anthropic API key
   and Hugging Face token. On a free Colab T4, Llama needs `--quant 4bit` (a declared deviation).
 

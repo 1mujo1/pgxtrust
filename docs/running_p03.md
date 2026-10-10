@@ -75,6 +75,20 @@ scored.
    ```
    Re-run the same loop after a disconnect: finished questions are skipped.
 
+## Part 3: Qwen3-8B (Google Colab, free, no token needed)
+
+Qwen3-8B is the target paper's second model. It is Apache-2.0 and **not gated**, so no Hugging
+Face token or licence approval is needed. It is pinned to the paper's own revision `b968826d…`.
+Its "thinking" mode is switched off automatically, because the answer is one letter. Same Colab
+set-up as Part 2, then:
+```python
+!python scripts/p03_run.py --arm A0 --backend qwen --quant 4bit --limit 20 --tag smoke
+!for a in A0 A1 A2 A3; do python scripts/p03_run.py --arm $a --backend qwen --quant 4bit; done
+!cp -r results/p03/runs /content/drive/MyDrive/pgxtrust_data/
+```
+In the smoke test, check that `unparseable` is near 0. If Qwen still prints thinking tags,
+stop and tell Claude.
+
 ## After the runs
 
 Copy the result files back into `~/pgxtrust/results/p03/runs/` and tell Claude. The P04 analysis
