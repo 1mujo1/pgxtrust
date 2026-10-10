@@ -4,7 +4,8 @@
   (rendering, retrieval, parsing, scoring, logging) without any model or cost. It must score 100%.
 * ``RandomBackend`` - seeded uniform guess. Dry-run sanity check: should score about 25%.
 * ``ClaudeBackend`` - Anthropic API (requires ANTHROPIC_API_KEY; ``pip install anthropic``).
-* ``LlamaBackend`` - Hugging Face transformers, greedy decoding (run on Colab GPU).
+* ``HFBackend`` - Hugging Face transformers, greedy decoding, pinned revisions: "llama"
+  (Llama-3.1-8B-Instruct) and "qwen" (Qwen3-8B), the two models of the target paper (Colab GPU).
 
 Heavy libraries are imported lazily so tests and dry runs need neither.
 """
@@ -83,33 +84,51 @@ class ClaudeBackend:
         return Reply(text)
 
 
-class LlamaBackend:
-    """Local Hugging Face model with greedy decoding (deterministic). Needs a GPU + HF token."""
+# Open-weight models from the target paper (Arafin et al. 2026), pinned to exact revisions so
+# the weights cannot change under us. Qwen's revision is the one the paper itself reports.
+HF_MODELS = {
+    "llama": ("meta-llama/Llama-3.1-8B-Instruct", "0e9e39f249a16976918f6564b8830bc894c89659"),
+    "qwen": ("Qwen/Qwen3-8B", "b968826d9c46dd6066d109eabc6255188de91218"),
+}
 
-    name = "llama"
 
-    def __init__(self, model_id: str = "meta-llama/Llama-3.1-8B-Instruct",
+class HFBackend:
+    """Local Hugging Face chat model, greedy decoding (deterministic). Needs a GPU.
+
+    Llama is gated on Hugging Face (needs an approved HF token); Qwen3-8B is Apache-2.0 and open.
+    Qwen3's "thinking" mode is switched off (``enable_thinking=False``) because the answer is a
+    single letter; templates that do not use that flag (Llama) ignore it.
+    """
+
+    def __init__(self, name: str, model_id: str | None = None, revision: str | None = None,
                  max_new_tokens: int = 5, quant: str = "none"):
-        """quant='4bit' loads with bitsandbytes NF4 so the 8B model fits a free Colab T4
+        """quant='4bit' loads with bitsandbytes NF4 so an 8B model fits a free Colab T4
         (~15 GB). This is a declared deviation: it is recorded in model_id and run settings."""
         import torch  # lazy
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
+        default_id, default_rev = HF_MODELS.get(name, (None, None))
+        hf_id = model_id or default_id
+        revision = revision or (default_rev if hf_id == default_id else None)
+        if hf_id is None:
+            raise ValueError(f"no model id for backend {name!r}")
+        self.name = name
         self.torch = torch
-        self.model_id = model_id + ("-4bit" if quant == "4bit" else "")
+        self.revision = revision
+        self.model_id = hf_id + ("-4bit" if quant == "4bit" else "")
         self.max_new_tokens = max_new_tokens
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.tokenizer = AutoTokenizer.from_pretrained(hf_id, revision=revision)
         if quant == "4bit":
             from transformers import BitsAndBytesConfig
 
             config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
                                         bnb_4bit_compute_dtype=torch.float16)
             self.model = AutoModelForCausalLM.from_pretrained(
-                model_id, quantization_config=config, device_map="auto"
+                hf_id, revision=revision, quantization_config=config, device_map="auto"
             )
         elif quant == "none":
             self.model = AutoModelForCausalLM.from_pretrained(
-                model_id, torch_dtype=torch.bfloat16, device_map="auto"
+                hf_id, revision=revision, torch_dtype=torch.bfloat16, device_map="auto"
             )
         else:
             raise ValueError(f"unknown quant {quant!r}")
@@ -117,7 +136,7 @@ class LlamaBackend:
     def answer(self, prompt: str, item: Item) -> Reply:
         messages = [{"role": "user", "content": prompt}]
         inputs = self.tokenizer.apply_chat_template(
-            messages, add_generation_prompt=True, return_tensors="pt"
+            messages, add_generation_prompt=True, return_tensors="pt", enable_thinking=False
         ).to(self.model.device)
         with self.torch.no_grad():
             out = self.model.generate(
@@ -134,6 +153,6 @@ def make_backend(name: str, model_id: str | None = None, quant: str = "none"):
         return RandomBackend()
     if name == "claude":
         return ClaudeBackend(model_id or "claude-sonnet-5-5")
-    if name == "llama":
-        return LlamaBackend(model_id or "meta-llama/Llama-3.1-8B-Instruct", quant=quant)
+    if name in HF_MODELS:
+        return HFBackend(name, model_id, quant=quant)
     raise ValueError(f"unknown backend {name!r}")

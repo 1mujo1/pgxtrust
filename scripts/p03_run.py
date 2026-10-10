@@ -39,7 +39,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run one arm over the frozen items.")
     parser.add_argument("--arm", required=True, choices=sorted(ARMS))
     parser.add_argument("--backend", required=True,
-                        choices=["oracle", "random", "claude", "llama"])
+                        choices=["oracle", "random", "claude", "llama", "qwen"])
     parser.add_argument("--model-id", default=None)
     parser.add_argument("--limit", type=int, default=None, help="first N questions (dry runs)")
     parser.add_argument("--tag", default="", help="suffix for the output file, e.g. 'dryrun'")
