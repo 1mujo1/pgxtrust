@@ -1,6 +1,6 @@
 # PGxTrust — Claude Code project state
 
-**Read `README.md` completely first.** It holds the user's master project instructions
+**Read `docs/project_instructions.md` completely first.** It holds the user's master project instructions
 (sections 1–51: role, hypotheses H1–H7, architecture, benchmarks, phases, gates, rules). This file
 only records the current state of the project and the extra rules adopted during P00. Where they
 differ, the master instructions win, except for the frozen core question below, which the master

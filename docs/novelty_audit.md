@@ -220,7 +220,7 @@ Their public work does **not** include, as far as we found:
     retrievers.
   - **Implication:** "neuro-symbolic" is not a novelty angle. It is now an expected design.
 
-### 3.5 Coverage of the master P00 checklist (`README.md` §26, §51)
+### 3.5 Coverage of the master P00 checklist (`docs/project_instructions.md` §26, §51)
 
 | Master checklist item | Where covered |
 |---|---|

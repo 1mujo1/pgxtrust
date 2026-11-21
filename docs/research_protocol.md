@@ -27,7 +27,7 @@ The "correct" answer is always the recommendation in the CPIC release valid on t
 recovered from that release's SQL dump. **No LLM judge and no clinician labelling are needed for the
 primary outcome.**
 
-### Relation to the master programme (`README.md`)
+### Relation to the master programme (`docs/project_instructions.md`)
 
 The master primary question (§4: a full neuro-symbolic system with executable guidelines, conflict
 modelling, verification and version tracking) is kept as the **long-term programme**. P00 found that
@@ -233,7 +233,7 @@ add phenotype variants per key, or widen the release window.
 
 ## 7. Planned phases
 
-Phase numbers follow the master instructions (`README.md` §26). Only the phases the core paper needs
+Phase numbers follow the master instructions (`docs/project_instructions.md` §26). Only the phases the core paper needs
 are scheduled now. The others (P05 retrieval benchmark, P08 verifier, P09 cross-guideline, P12
 abstention engine, P14 ablations) are deferred until the core result exists.
 
